@@ -76,12 +76,32 @@ defined in linker script */
     .section  .text.Reset_Handler
   .weak  Reset_Handler
   .type  Reset_Handler, %function
+         .equ start_ram, 0x20000000
+       		.equ end_ram,  0x2002ffff
+       		.equ start_flash,	0x8100000
+		       .equ finish_flash,	0x81fffff
+  
+  
 Reset_Handler:
   ldr   sp, =_estack       /* set stack pointer */
-
+  bl store_puf
 /* Copy the data segment initializers from flash to SRAM */
   movs  r1, #0
   b  LoopCopyDataInit
+
+store_puf:
+       ldr r1,=start_flash
+       ldr r2,=start_ram
+       ldr r3,=end_ram
+       eor r4,r4,r4
+loop1: ldr r4,[r2]
+	      add r2,#4
+  	    str r4,[r1]
+  	    add r1,#4
+	      cmp r2,r3
+	      blt loop1
+	      bx lr
+
 
 CopyDataInit:
   ldr  r3, =_sidata
