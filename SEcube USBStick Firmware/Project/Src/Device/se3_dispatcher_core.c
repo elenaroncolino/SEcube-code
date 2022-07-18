@@ -76,6 +76,25 @@ uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_s
     return SE3_OK;
 }
 
+
+uint16_t puf_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
+{
+	int nPuf = 10;
+	se3_flash_it it = { .addr = NULL };  // maybe the address of the first PUF in flash
+	// SE3_GET32(req, 2, keyid); // get key ID
+	// check if there is already a key with same ID
+	se3_flash_it_init(&it);
+	for(int i = 0; i<nPuf; i++){
+		SE3_GET32(req, 2, resp[i]); // get PUF
+	}
+
+	return SE3_OK;
+}
+
+
+
+
+
 uint16_t error(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
     return SE3_ERR_CMD;

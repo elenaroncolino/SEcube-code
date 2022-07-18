@@ -649,3 +649,25 @@ void L1::L1FindKey(uint32_t keyId, bool& found) {
 		}
 	}
 }
+
+
+/*added functions for puf purpose*/
+void L1::L1FindPUF(uint8_t* puflist){
+	L1FindPufException findPufExc;
+	uint16_t respLen = 0;
+	uint16_t dataLen = 4;//*nPUF;  //????
+	try {
+		TXRXData(L1Commands::Codes::SEPUF, dataLen, 0, &respLen);
+	}
+	catch(L1Exception& e) {
+		throw findPufExc;
+	}
+	if(respLen == 0){
+		printf("error 2\n");
+		throw findPufExc;
+	} else {
+		//uint8_t res;
+		this->base.ReadSessionBuffer(puflist, L1Response::Offset::DATA, respLen);  // puntatore ad uint8
+	}
+
+}

@@ -100,6 +100,12 @@ typedef struct se3Algo_ {
 	void print();
 } se3Algo;
 
+/** \brief SEcube Puf structure */
+typedef struct se3Puf_ {
+	//uint32_t challenge;
+	uint32_t PUF;
+} se3Puf;
+
 /** \brief SEcube Key structure */
 typedef struct se3Key_ {
 	uint32_t id;

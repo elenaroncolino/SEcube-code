@@ -159,6 +159,11 @@ public:
 	 * @param [out] algorithmsArray */
 	void L1GetAlgorithms(std::vector<se3Algo>& algorithmsArray) override ;
 
+	/* @brief List the PUFs stored inside the memory of a SEcube device.
+	 * @param [out] puflist The list of pufs inside the SEcube.
+	 * @detail  */
+	void L1FindPUF(uint8_t* puflist);
+
 	// Other API
 	/** @brief Select a specific SEcube out of multiple SEcube devices.
 	 * @param [in] sn The serial number of the SEcube to be selected.

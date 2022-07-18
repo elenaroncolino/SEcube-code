@@ -129,5 +129,20 @@ int main() {
 		return 0;
 	}
 
+
+
+
+
+	/*Code added for the PUF management*/
+	printf("\n\n\n\n Print PUFs \n---------");
+	uint8_t PUF_list[4*10];
+	for(int i=0; i<10; i++)
+		PUF_list[i] = 0;
+	l1->L1FindPUF(PUF_list);  // request all PUFS
+
+	for(int i=0; i<10; i++)
+		printf("%d->%d \n",i,PUF_list[i]);
+
+
 	return 0;
 }
