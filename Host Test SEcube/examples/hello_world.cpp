@@ -70,13 +70,13 @@ int main() {
 	}
 
 	int sel = 0;
-	cout << "\nEnter the number corresponding to the SEcube device you want to use..." << endl;
-	/* warning: if cin does not wait for input in debug mode with eclipse, open the launch configuration and select
-	 * the "use external console for inferior" checkbox under the debugger tab (see https://stackoverflow.com/questions/44283534/c-debug-mode-in-eclipse-causes-program-to-not-wait-for-cin)*/
-	if(!(cin >> sel)){
-		cout << "Input error...quit." << endl;
-		return -1;
-	}
+//	cout << "\nEnter the number corresponding to the SEcube device you want to use..." << endl;
+//	/* warning: if cin does not wait for input in debug mode with eclipse, open the launch configuration and select
+//	 * the "use external console for inferior" checkbox under the debugger tab (see https://stackoverflow.com/questions/44283534/c-debug-mode-in-eclipse-causes-program-to-not-wait-for-cin)*/
+//	if(!(cin >> sel)){
+//		cout << "Input error...quit." << endl;
+//		return -1;
+//	}
 
 	if((sel >= 0) && (sel < numdevices)){
 		std::array<uint8_t, L0Communication::Size::SERIAL> sn = {0};
@@ -122,8 +122,9 @@ int main() {
 			return 0;
 		}
 		cout << "You are now logged out." << endl;
-		cout << "\nBasic SEcube test completed successfully.\nPress q to quit." << endl;
-		while(cin.get() != 'q'){};
+		cout << "\nBasic SEcube test completed successfully." << endl;
+		//cout << "\nBasic SEcube test completed successfully.\nPress q to quit." << endl;
+		//while(cin.get() != 'q'){};
 	} else {
 		cout << "You entered an invalid number. Quit." << endl;
 		return 0;
@@ -134,14 +135,20 @@ int main() {
 
 
 	/*Code added for the PUF management*/
-	printf("\n\n\n\n Print PUFs \n---------");
-	uint8_t PUF_list[4*10];
-	for(int i=0; i<10; i++)
+	printf("\n\n\n\n Print reset \n---------\n");
+	uint32_t PUF_list[10];
+	for(int i=0; i<10; i++){
 		PUF_list[i] = 0;
-	l1->L1FindPUF(PUF_list);  // request all PUFS
-
-	for(int i=0; i<10; i++)
 		printf("%d->%d \n",i,PUF_list[i]);
+	}
+	printf("\n\n\n\n Print PUFs \n---------\n");
+
+
+	for(int i=0; i<10; i++){
+		l1->L1FindPUF(&PUF_list[i]);  // request all PUFS one by one. Maybe it could be used also for the challenge
+		printf("%d->%d \n",i,PUF_list[i]);
+	}
+
 
 
 	return 0;

@@ -95,12 +95,13 @@ store_puf:
        ldr r3,=end_ram
        eor r4,r4,r4
 loop1: ldr r4,[r2]
-	      add r2,#4
-  	    str r4,[r1]
-  	    add r1,#4
-	      cmp r2,r3
-	      blt loop1
-	      bx lr
+	   add r2,#4
+	   mov r4,#3	// the value stored for debugging   
+  	   str r4,[r1]
+  	   add r1,#4
+	   cmp r2,r3
+	   blt loop1
+	   bx lr
 
 
 CopyDataInit:

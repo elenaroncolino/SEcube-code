@@ -162,7 +162,7 @@ public:
 	/* @brief List the PUFs stored inside the memory of a SEcube device.
 	 * @param [out] puflist The list of pufs inside the SEcube.
 	 * @detail  */
-	void L1FindPUF(uint8_t* puflist);
+	void L1FindPUF(uint32_t* puf);
 
 	// Other API
 	/** @brief Select a specific SEcube out of multiple SEcube devices.

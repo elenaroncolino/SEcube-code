@@ -652,22 +652,23 @@ void L1::L1FindKey(uint32_t keyId, bool& found) {
 
 
 /*added functions for puf purpose*/
-void L1::L1FindPUF(uint8_t* puflist){
+void L1::L1FindPUF(uint32_t* puf){
 	L1FindPufException findPufExc;
 	uint16_t respLen = 0;
-	uint16_t dataLen = 4;//*nPUF;  //????
+	uint16_t dataLen = 4;//size of data to be sent. Shouldnt it be 0 ???
 	try {
 		TXRXData(L1Commands::Codes::SEPUF, dataLen, 0, &respLen);
 	}
 	catch(L1Exception& e) {
 		throw findPufExc;
 	}
-	if(respLen == 0){
-		printf("error 2\n");
-		throw findPufExc;
+	printf("respLen = %d\n", respLen);
+	if(respLen != 4){		//expect 4 bytes
+		printf("[error] not received 4 bytes\n");
+		//throw findPufExc;
 	} else {
 		//uint8_t res;
-		this->base.ReadSessionBuffer(puflist, L1Response::Offset::DATA, respLen);  // puntatore ad uint8
+		this->base.ReadSessionBuffer((uint8_t*)puf, L1Response::Offset::DATA, 4);  // ?? offset
 	}
 
 }

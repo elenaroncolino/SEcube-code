@@ -24,6 +24,7 @@
 
 #include "se3_dispatcher_core.h"
 #include "se3_communication_core.h"
+#include "se3_core.h"
 
 uint8_t algo_implementation;
 uint8_t crypto_algo;
@@ -77,16 +78,45 @@ uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_s
 }
 
 
-uint16_t puf_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
+
+
+/*
+ *	req_size 	-> 	dataLen
+ *	req 		->	buffer che mi ha mandato il host
+ *	resp_size	->	respLen
+ *	resp		->	is the return value
+ */
+
+uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
-	int nPuf = 10;
-	se3_flash_it it = { .addr = NULL };  // maybe the address of the first PUF in flash
-	// SE3_GET32(req, 2, keyid); // get key ID
-	// check if there is already a key with same ID
-	se3_flash_it_init(&it);
-	for(int i = 0; i<nPuf; i++){
-		SE3_GET32(req, 2, resp[i]); // get PUF
-	}
+	uint16_t* data_count = 0;
+	resp[0] = 1;
+	*data_count+=1;
+	resp[1] = 2;
+	*data_count+=1;
+	resp[2] = 3;
+	*data_count+=1;
+	resp[3] = 4;
+	*data_count+=1;
+	*resp_size = data_count;		// every time we succefully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
+
+	//uint32_t* puf = 0;
+//    enum {
+//        OFF_SERIAL = 0
+//    };
+//    const uint8_t* serial_tmp = req + OFF_SERIAL;
+//    se3_flash_it it;
+//	se3_flash_it_init(&it);
+//    if (!se3_flash_it_new(&it, SE3_FLASH_TYPE_SERIAL, SE3_SERIAL_SIZE)) {
+//        return SE3_ERR_HW;
+//    }
+//    if(!se3_flash_it_next(&it)){
+//		  return SE3_ERR_HW;
+//	  }
+//	  data_count++;
+//    memcpy(serial.data, serial_tmp, SE3_SERIAL_SIZE);
+//	  memcpy(resp, data_count, req_size);
+//    serial.written = true;
 
 	return SE3_OK;
 }
@@ -469,6 +499,7 @@ uint16_t key_edit(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, ui
 
 uint16_t key_find(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
+	printf("req_size %d\n",req_size);
     if (req_size != 4) {
         SE3_TRACE(("[key_find] req size mismatch\n"));
         return SE3_ERR_PARAMS;
@@ -491,6 +522,9 @@ uint16_t key_find(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, ui
     }
 	return SE3_OK;
 }
+
+
+
 
 uint16_t dispatcher_call(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {

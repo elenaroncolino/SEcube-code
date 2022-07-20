@@ -101,8 +101,12 @@ uint16_t dispatcher_call(uint16_t req_size, const uint8_t* req, uint16_t* resp_s
 uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp);
 
 
-// added for SEKey
-uint16_t puf_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp);
+// added for puf
+/* @brief Implements response to incoming L1FindPUF() from host side.
+ * @detail The host requests one single PUF. So it is called in a loop
+ * the iterator must be managed inside the function.
+ */
+uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp);
 
 
 /** \brief Initialize structures */
@@ -128,7 +132,7 @@ static se3_cmd_func handlers[SE3_N_HARDWARE][SE3_CMD1_MAX] = {{
     /* 10 */ crypto_list,
     /* 11 */ NULL, // forced logout
     /* 12 */ sekey_utilities,
-    /* 13 */ puf_utilities,						// added command to read pufs from SEcube from host
+    /* 13 */ puf_retreive,						// added command to read pufs from SEcube from host
     /* 14 */ NULL,
     /* 15 */ error
 	/* Each number identifies a command sent by the host-side. This must be consistent with
