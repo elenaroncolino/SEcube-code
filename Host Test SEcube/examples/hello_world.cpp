@@ -146,7 +146,7 @@ int main() {
 
 	for(int i=0; i<10; i++){
 		l1->L1FindPUF(&PUF_list[i]);  // request all PUFS one by one. Maybe it could be used also for the challenge
-		printf("%d->%d \n",i,PUF_list[i]);
+		printf("%d->0x%08x \n",i,PUF_list[i]);
 	}
 
 

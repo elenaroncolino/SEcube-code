@@ -655,7 +655,7 @@ void L1::L1FindKey(uint32_t keyId, bool& found) {
 void L1::L1FindPUF(uint32_t* puf){
 	L1FindPufException findPufExc;
 	uint16_t respLen = 0;
-	uint16_t dataLen = 4;//size of data to be sent. Shouldnt it be 0 ???
+	uint16_t dataLen = 0;//size of data to be sent. Shouldnt it be 0 ???
 	try {
 		TXRXData(L1Commands::Codes::SEPUF, dataLen, 0, &respLen);
 	}

@@ -89,16 +89,15 @@ uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_s
 
 uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
-	uint16_t* data_count = 0;
+	*resp_size = 0;	// every time we succefully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
 	resp[0] = 1;
-	*data_count+=1;
+	*resp_size+=1;
 	resp[1] = 2;
-	*data_count+=1;
+	*resp_size+=1;
 	resp[2] = 3;
-	*data_count+=1;
+	*resp_size+=1;
 	resp[3] = 4;
-	*data_count+=1;
-	*resp_size = data_count;		// every time we succefully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
+	*resp_size+=1;
 
 	//uint32_t* puf = 0;
 //    enum {
