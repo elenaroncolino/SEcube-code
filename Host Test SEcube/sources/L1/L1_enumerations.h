@@ -442,7 +442,8 @@ namespace L1Commands {
 			CRYPTO_LIST = 10,
 			FORCED_LOGOUT=11,
 			SEKEY = 12,
-			SEPUF = 13				// added for puf purpose
+			GETPUFS = 13,					// added for puf purpose
+			CHALLENGEPUF = 14				// added for puf purpose
 		};
 	};
 

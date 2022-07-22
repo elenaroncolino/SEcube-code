@@ -144,11 +144,15 @@ int main() {
 	printf("\n\n\n\n Print PUFs \n---------\n");
 
 
-	for(int i=0; i<10; i++){
-		l1->L1FindPUF(&PUF_list[i]);  // request all PUFS one by one. Maybe it could be used also for the challenge
-		printf("%d->0x%08x \n",i,PUF_list[i]);
-	}
+//	for(int i=0; i<10; i++){
+//		l1->L1GetPUFS(&PUF_list[i]);  // request all PUFS one by one. Maybe it could be used also for the challenge
+//		printf("%d->0x%08x \n",i,PUF_list[i]);
+//	}
 
+
+	l1->L1GetPUFS((uint32_t*)PUF_list);  // request all PUFS one by one. Maybe it could be used also for the challenge
+	for(int i=0; i<10; i++)
+		printf("%d->0x%08x \n",i,PUF_list[i]);
 
 
 	return 0;

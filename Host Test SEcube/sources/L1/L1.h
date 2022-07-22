@@ -162,7 +162,13 @@ public:
 	/* @brief List the PUFs stored inside the memory of a SEcube device.
 	 * @param [out] puflist The list of pufs inside the SEcube.
 	 * @detail  */
-	void L1FindPUF(uint32_t* puf);
+	void L1GetPUFS(uint32_t* puf);
+
+	/* @brief List the PUFs stored inside the memory of a SEcube device.
+	 * @param [in] 32 bit challenge that corresponds to an address
+	 * @param [out] puf stored in address "challenge" in the SEcube flash.
+	 * @detail  */
+	void L1ChallengePUF(uint32_t challenge, uint32_t* puf);
 
 	// Other API
 	/** @brief Select a specific SEcube out of multiple SEcube devices.

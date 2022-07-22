@@ -26,6 +26,8 @@
 #include "se3_communication_core.h"
 #include "se3_core.h"
 
+#define FLASH_START 0x8100000
+
 uint8_t algo_implementation;
 uint8_t crypto_algo;
 
@@ -82,40 +84,72 @@ uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_s
 
 /*
  *	req_size 	-> 	dataLen
- *	req 		->	buffer che mi ha mandato il host
+ *	req 		->	buffer sent by the host, the challenge.
  *	resp_size	->	respLen
  *	resp		->	is the return value
  */
 
 uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
-	*resp_size = 0;	// every time we succefully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
-	resp[0] = 1;
-	*resp_size+=1;
-	resp[1] = 2;
-	*resp_size+=1;
-	resp[2] = 3;
-	*resp_size+=1;
-	resp[3] = 4;
-	*resp_size+=1;
+	//uint32_t puf = 0;
+	uint32_t puf_num = 10;
+	uint32_t flashAddress = 0x8100000;
 
-	//uint32_t* puf = 0;
-//    enum {
-//        OFF_SERIAL = 0
-//    };
-//    const uint8_t* serial_tmp = req + OFF_SERIAL;
-//    se3_flash_it it;
-//	se3_flash_it_init(&it);
-//    if (!se3_flash_it_new(&it, SE3_FLASH_TYPE_SERIAL, SE3_SERIAL_SIZE)) {
-//        return SE3_ERR_HW;
-//    }
-//    if(!se3_flash_it_next(&it)){
-//		  return SE3_ERR_HW;
-//	  }
-//	  data_count++;
-//    memcpy(serial.data, serial_tmp, SE3_SERIAL_SIZE);
-//	  memcpy(resp, data_count, req_size);
-//    serial.written = true;
+//	*resp_size = 0;	// every time we successfully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
+//	resp[0] = 1;
+//	*resp_size+=1;
+//	resp[1] = 2;
+//	*resp_size+=1;
+//	resp[2] = 3;
+//	*resp_size+=1;
+//	resp[3] = 4;
+//	*resp_size+=1;
+
+//	SE3_SET32(0, FLASH_START, puf);
+//	SE3_GET32(0, FLASH_START, puf);
+//	resp[0] = puf;
+//	resp[1] = puf>>8;
+//	resp[2] = puf>>16;
+//	resp[3] = puf>>24;
+	*resp_size=40;
+
+
+
+	HAL_FLASH_Unlock();
+	FLASH_Erase_Sector(11, FLASH_VOLTAGE_RANGE_3);
+	HAL_FLASH_Lock();
+
+	//write to memory
+	HAL_FLASH_Unlock();
+	for(uint8_t i=0; i<4*puf_num; i++)
+	{
+	    HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, flashAddress, (uint8_t*)resp_size);
+	    flashAddress++;
+	}
+	HAL_FLASH_Lock();
+
+	//read
+	flashAddress = 0x8100000;
+	for(uint32_t i=0; i<4*puf_num; i++)
+	{
+	    *((uint8_t *)resp + i) = *(uint8_t *)flashAddress;
+	    flashAddress++;
+	}
+
+
+	return SE3_OK;
+}
+
+
+uint32_t puf_challenge(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
+{
+
+	// output challenge
+	//	resp[0] = req[0];
+	//	resp[1] = req[1];
+	//	resp[2] = req[2];
+	//	resp[3] = req[3];
+
 
 	return SE3_OK;
 }

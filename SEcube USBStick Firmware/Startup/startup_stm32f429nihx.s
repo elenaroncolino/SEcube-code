@@ -96,7 +96,7 @@ store_puf:
        eor r4,r4,r4
 loop1: ldr r4,[r2]
 	   add r2,#4
-	   mov r4,#3	// the value stored for debugging   
+	   mov r4,#0	// the value stored for debugging   
   	   str r4,[r1]
   	   add r1,#4
 	   cmp r2,r3
