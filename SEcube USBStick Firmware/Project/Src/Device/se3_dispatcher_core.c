@@ -91,50 +91,46 @@ uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_s
 
 uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
-	//uint32_t puf = 0;
+//	//uint32_t puf = 0;
 	uint32_t puf_num = 10;
-	uint32_t flashAddress = 0x8100000;
-
-//	*resp_size = 0;	// every time we successfully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
-//	resp[0] = 1;
-//	*resp_size+=1;
-//	resp[1] = 2;
-//	*resp_size+=1;
-//	resp[2] = 3;
-//	*resp_size+=1;
-//	resp[3] = 4;
-//	*resp_size+=1;
-
-//	SE3_SET32(0, FLASH_START, puf);
-//	SE3_GET32(0, FLASH_START, puf);
-//	resp[0] = puf;
-//	resp[1] = puf>>8;
-//	resp[2] = puf>>16;
-//	resp[3] = puf>>24;
-	*resp_size=40;
-
+	uint32_t flashAddress = 0x080E0000;
+//
+////	*resp_size = 0;	// every time we successfully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
+////	resp[0] = 1;
+////	*resp_size+=1;
+////	resp[1] = 2;
+////	*resp_size+=1;
+////	resp[2] = 3;
+////	*resp_size+=1;
+////	resp[3] = 4;
+////	*resp_size+=1;
+//
+////	SE3_SET32(0, FLASH_START, puf);
+////	SE3_GET32(0, FLASH_START, puf);
+////	resp[0] = puf;
+////	resp[1] = puf>>8;
+////	resp[2] = puf>>16;
+////	resp[3] = puf>>24;
 
 
-	HAL_FLASH_Unlock();
-	FLASH_Erase_Sector(11, FLASH_VOLTAGE_RANGE_3);
-	HAL_FLASH_Lock();
-
-	//write to memory
-	HAL_FLASH_Unlock();
-	for(uint8_t i=0; i<4*puf_num; i++)
-	{
-	    HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, flashAddress, (uint8_t*)resp_size);
-	    flashAddress++;
-	}
-	HAL_FLASH_Lock();
+//	//write to memory
+//	HAL_FLASH_Unlock();
+//	for(uint64_t i=0; i<4*puf_num; i++)
+//	{
+//	    HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, flashAddress, i);
+//	    flashAddress++;
+//	}
+//	HAL_FLASH_Lock();
 
 	//read
-	flashAddress = 0x8100000;
+	flashAddress = 0x080E0000;
 	for(uint32_t i=0; i<4*puf_num; i++)
 	{
 	    *((uint8_t *)resp + i) = *(uint8_t *)flashAddress;
 	    flashAddress++;
+	    *resp_size+=1;
 	}
+
 
 
 	return SE3_OK;
