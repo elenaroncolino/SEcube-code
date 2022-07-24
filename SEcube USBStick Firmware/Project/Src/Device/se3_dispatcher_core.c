@@ -106,7 +106,7 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 //	*resp_size+=1;
 
 
-//	write to memory
+//	write to memory					for debugging purposes
 //	HAL_FLASH_Unlock();
 //	for(uint64_t i=0; i<4*puf_num; i++)
 //	{

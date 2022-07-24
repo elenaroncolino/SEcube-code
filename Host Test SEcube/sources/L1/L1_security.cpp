@@ -662,7 +662,7 @@ void L1::L1GetPUFS(uint32_t* puf){
 	catch(L1Exception& e) {
 		throw getPufExc;
 	}
-	printf("respLen = %d\n", respLen);
+
 	if(respLen != 4*10){								//expect 10 pufs 4 bytes each
 		printf("[error] not all pufs were received\n");
 		//throw findPufExc;
