@@ -84,18 +84,11 @@ defined in linker script */
   
 Reset_Handler:
   ldr   sp, =_estack       /* set stack pointer */
-  mov r4,#2
-  ldr r3,=0x080E0000
-  str r4,[r3]
-  //bl store_puf
+  bl store_puf
 /* Copy the data segment initializers from flash to SRAM */
   movs  r1, #0
   b  LoopCopyDataInit
 
-
-
-
-/*
 store_puf:
        ldr r1,=start_flash
        ldr r2,=start_ram
@@ -103,13 +96,13 @@ store_puf:
        eor r4,r4,r4
 loop1: ldr r4,[r2]
 	   add r2,#4
-	   movs r4,#2
+	   mov r4,#2	// the value stored for debugging   
   	   str r4,[r1]
   	   add r1,#4
 	   cmp r2,r3
 	   blt loop1
 	   bx lr
-*/
+
 
 CopyDataInit:
   ldr  r3, =_sidata

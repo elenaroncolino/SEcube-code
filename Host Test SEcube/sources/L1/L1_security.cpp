@@ -653,14 +653,14 @@ void L1::L1FindKey(uint32_t keyId, bool& found) {
 
 /*added functions for puf purpose*/
 void L1::L1GetPUFS(uint32_t* puf){
-	L1FindPufException findPufExc;
+	L1GetPufException getPufExc;
 	uint16_t dataLen = 0;								//size of data to be sent. we do not send any data
 	uint16_t respLen = 0;
 	try {
 		TXRXData(L1Commands::Codes::GETPUFS, dataLen, 0, &respLen);
 	}
 	catch(L1Exception& e) {
-		throw findPufExc;
+		throw getPufExc;
 	}
 	printf("respLen = %d\n", respLen);
 	if(respLen != 4*10){								//expect 10 pufs 4 bytes each
@@ -673,24 +673,24 @@ void L1::L1GetPUFS(uint32_t* puf){
 
 }
 
-void L1::L1ChallengePUF(uint32_t challenge, uint32_t* puf){
-	L1FindPufException findPufExc;
-	uint16_t dataLen = 4;								//size of data to be sent. size of the challenge
+void L1::L1ChallengePUF(uint64_t challenge, uint8_t* res){
+	L1ChallengePufException challengePufExc;
+	uint16_t dataLen = 8;						//size of data to be sent. size of the challenge + expected PUF
 	uint16_t respLen = 0;
-	this->base.FillSessionBuffer((uint8_t*)&challenge, L1Response::Offset::DATA, 4);
+
+	this->base.FillSessionBuffer((uint8_t*)&challenge, L1Response::Offset::DATA, 8);
 	try {
 		TXRXData(L1Commands::Codes::CHALLENGEPUF, dataLen, 0, &respLen);
 	}
 	catch(L1Exception& e) {
-		throw findPufExc;
+		throw challengePufExc;
 	}
 	printf("respLen = %d\n", respLen);
-	if(respLen != 4*10){								//expect 10 pufs 4 bytes each
-		printf("[error] not all pufs were received\n");
-		//throw findPufExc;
+	if(respLen != 1){								//expect 1 8bit value
+		printf("[error] no result received\n");
+		//throw challengePufExc;
 	} else {
-		//uint8_t res;
-		this->base.ReadSessionBuffer((uint8_t*)puf, L1Response::Offset::DATA, 4*10);  // ?? offset
+		this->base.ReadSessionBuffer((uint8_t*) res, L1Response::Offset::DATA, 1);
 	}
 
 }

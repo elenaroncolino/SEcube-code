@@ -95,25 +95,18 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 	uint32_t puf_num = 10;
 	uint32_t flashAddress = 0x080E0000;
 //
-////	*resp_size = 0;	// every time we successfully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
-////	resp[0] = 1;
-////	*resp_size+=1;
-////	resp[1] = 2;
-////	*resp_size+=1;
-////	resp[2] = 3;
-////	*resp_size+=1;
-////	resp[3] = 4;
-////	*resp_size+=1;
-//
-////	SE3_SET32(0, FLASH_START, puf);
-////	SE3_GET32(0, FLASH_START, puf);
-////	resp[0] = puf;
-////	resp[1] = puf>>8;
-////	resp[2] = puf>>16;
-////	resp[3] = puf>>24;
+//	*resp_size = 0;	// every time we successfully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
+//	resp[0] = 1;
+//	*resp_size+=1;
+//	resp[1] = 2;
+//	*resp_size+=1;
+//	resp[2] = 3;
+//	*resp_size+=1;
+//	resp[3] = 4;
+//	*resp_size+=1;
 
 
-//	//write to memory
+//	write to memory
 //	HAL_FLASH_Unlock();
 //	for(uint64_t i=0; i<4*puf_num; i++)
 //	{
@@ -139,12 +132,39 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 
 uint32_t puf_challenge(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
+	uint8_t mem_puf[4];
+    uint32_t mem_puf32;
+	uint8_t challenge[4];
+    uint8_t host_puf[4];
+    uint32_t host_puf32;
 
-	// output challenge
-	//	resp[0] = req[0];
-	//	resp[1] = req[1];
-	//	resp[2] = req[2];
-	//	resp[3] = req[3];
+//    resp[3] = req[0];
+//    resp[2] = req[1];
+//    resp[1] = req[2];
+//    resp[0] = req[3];
+
+   	// Big endian
+    for(int i=0; i<4; i++){
+    	challenge[i] = req[4+i];
+	    host_puf[i] = req[i];
+    }
+
+	//read from flash
+	for(uint8_t i=0; i<4; i++)
+	{
+	    mem_puf[i] = *(uint8_t *)challenge;
+	    *challenge+=1;
+	}
+	*resp_size=1;
+
+
+	//converting into 32bit                // other solutions are also possible
+	mem_puf32 = mem_puf[3] | (mem_puf[2] << 8) | (mem_puf[1] << 16) | (mem_puf[0] << 24);
+	host_puf32 = host_puf[3] | (host_puf[2] << 8) | (host_puf[1] << 16) | (host_puf[0] << 24);;
+	if(mem_puf32 == host_puf32)
+		*resp = 1;
+	else
+		*resp = 0;
 
 
 	return SE3_OK;

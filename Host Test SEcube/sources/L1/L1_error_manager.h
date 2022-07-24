@@ -172,10 +172,17 @@ public:
 	}
 };
 
-class L1FindPufException : public L1Exception {
+class L1GetPufException : public L1Exception {
 public:
 	virtual const char* what() const throw() override {
-		return "Error while finding the puf!";
+		return "Error while getting the pufs!";
+	}
+};
+
+class L1ChallengePufException : public L1Exception {
+public:
+	virtual const char* what() const throw() override {
+		return "Error while challenging the pufs!";
 	}
 };
 
