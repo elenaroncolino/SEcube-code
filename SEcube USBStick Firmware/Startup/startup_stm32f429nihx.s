@@ -106,8 +106,10 @@ store_puf:
 	   pop  {r0,r1,r2,r3,r4}
 loop1: ldr r2,[r5]
     add r5,#4
-    mov r0,  #2                    //str r4,[r1]
-    BL HAL_FLASH_Program
+    mov r0,  #2
+    push {r0,r1,r2,r3,r4}
+    BL HAL_FLASH_Program		//str r4,[r1]
+    pop  {r0,r1,r2,r3,r4}
     add r1,#4
     cmp r5,r6
     bls loop1
