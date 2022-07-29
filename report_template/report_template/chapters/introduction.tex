@@ -4,13 +4,23 @@
 
 %Remember that the introduction is needed to make the reader understand %what kind of reading he or she will encounter. Be fluent and try not to %confuse him or her.
 %The introduction must ALWAYS end with the following formula:
-In the last years, the number of small electronic devices that can be connected with big computational units; this led to the necessity to have a secure way to identify this kind of device in order to avoid the possibility of substituting them with an attack.
-The PUF (Physical Unclonable Function) is a challenge-response mechanism that can be used for secure authentication.
-The particularity of the PUFs is that they depend on the physical characteristics of the device; this makes it quite impossible to replace them without knowing.
 
+In the last years, the number of small electronic devices that can be connected with big computational units grew exponentially. By the end of 2022 the number of IoT devices connected to the Internet is expected to reach the astonishing number of 14.4 billions \cite{IoT_state}. This leads to the necessity of having a secure way to identify these devices preventing attackers to impersonate someone they are not. 
 
+The current best practice for providing a secure authentication source in such devices is to place a secret key inside a nonvolatile memory inside the device and use hardware cryptographic operations such as digital signature or encryption \cite{PUF_IEEE_Herder}. This approach is expensive both in terms of design area and power consumption and vulnerable to attacks. 
 
+A promising innovative is the use of physical unclonable functions (PUFs). This method avoids the need of having secure EEPROMs and other expensive hardware. In fact, instead of storing secres in digital memory, PUFs derive the secret from the physical characteristics of the integrated circuit (IC).
 
+Several reasons make the use of PUFs more advantageous that the other solutions:
+\begin{enumerate}
+\item PUF hardware uses simple digital circuitry and is therefore cheaper that other EEPROM/RAM solutions with antitamper and cryptographic circuitry.
+\item The secret resides in memory only when the IC is powered on, so attacks could only take place when the chip is powered on.
+\item Invasive attacks are difficult to execute since they would modify the physical characteristic of the chip from which the secret is derived.
+\end{enumerate} 
+
+All these characteristics contribute to making PUFs an interesting technology to look into for providing a secure and cheap authentication method.
+
+\vspace{1.5em}
 The remainder of the document is organized as follows. 
 
 
