@@ -1,2 +1,33 @@
 \chapter{Implementation Overview}
-In this chapter you should provide a general overview of the project, explaining what you have implemented staying at a high-level of abstraction, without going too much into the details. Leave details for the implementation chapter. This chapter can be organized in sections, such as goal of the project, issues to be solved, solution overview, etc.\\It is very important to add images, schemes, graphs to explain the original problem and your solution. Pictures are extremely useful to understand complex ideas that might need an entire page to be explained.\\Use multiple sections to explain the starting point of your project, the last section is going to be the high-level view of your solution...so take the reader in a short `journey` to showcase your work.
+As already said the aim of the project is to provide a secure PUF to recognize IoT devices, in order to avoid impersonation attacks.
+
+The type of PUF implemented is a SRAM PUF (parlare un attimo dell' SRAM PUF se non e' stato fatto prima), this was implemented using a SECube device.
+
+The Idea is that the first time an Host is connected to the SECube, it asks the device all the PUFs that it has collected during its starting phases.
+This challenge and response information has to be stored by the host in a cipher way:
+\begin{equation}\label{eq:eq1}
+ data\_to\_store=H(response)
+ \end{equation}
+ 
+  the challenge has to stay in plaintext.
+
+In the future when the host has to establish a connection with the device, he is going to send to it a specific challenge, the device is going to answer with a response;
+then the host has to check the validity of the response, evaluating the digest and comparing with the one that he has in the storage file.
+Once a challenge-response is used, it has to be eliminated and not used anymore in the future; in this way it is possible to avoid replicant attacks.
+
+
+The implementation of this project can be divided in two flow:
+\begin{enumerate}
+	\item The first flow consists in the exchange of all the challenge and response information between host and device
+	\item The second flow consists in the challenge and response authentication of the device
+\end{enumerate}
+
+Device side: parlare delle tre suddivisioni tra codice assembli e codice c (2 parti una per ogni flow)
+
+Host side: solo due implementazioni una per ogni flow (nella prima si ciphra il testo, nella seconda si controlla il testo cifrato)
+
+
+
+
+
+%In this chapter you should provide a general overview of the project, explaining what you have implemented staying at a high-level of abstraction, without going too much into the details. Leave details for the implementation chapter. This chapter can be organized in sections, such as goal of the project, issues to be solved, solution overview, etc.\\It is very important to add images, schemes, graphs to explain the original problem and your solution. Pictures are extremely useful to understand complex ideas that might need an entire page to be explained.\\Use multiple sections to explain the starting point of your project, the last section is going to be the high-level view of your solution...so take the reader in a short `journey` to showcase your work.
