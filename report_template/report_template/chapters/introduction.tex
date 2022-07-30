@@ -5,28 +5,31 @@
 %Remember that the introduction is needed to make the reader understand %what kind of reading he or she will encounter. Be fluent and try not to %confuse him or her.
 %The introduction must ALWAYS end with the following formula:
 
-In the last years, the number of small electronic devices that can be connected with big computational units grew exponentially. By the end of 2022 the number of IoT devices connected to the Internet is expected to reach the astonishing number of 14.4 billions \cite{IoT_state}. This leads to the necessity of having a secure way to identify these devices preventing attackers to impersonate someone they are not. 
+In the last years, the number of small electronic devices that can be connected with big computational units grew exponentially. Embedded systems play a crucial role in fueling the growth of the Internet-of-Things (Iot) in the most diverse domains, such as health care, home automation and transportation. By the end of 2022 the number of IoT devices connected to the Internet is expected to reach the astonishing number of 14.4 billions \cite{IoT_state}. The ubiquitousness of such devices coupled with their ability to access potentially sensitive/confidential information has given rise to security and privacy concerns. An additional challenge is the growing number of counterfeit
+components in these devices, resulting in serious reliability and financial implications.
 
-The current best practice for providing a secure authentication source in such devices is to place a secret key inside a nonvolatile memory inside the device and use hardware cryptographic operations such as digital signature or encryption \cite{PUF_IEEE_Herder}. This approach is expensive both in terms of design area and power consumption and vulnerable to attacks. 
+Physical unclonable functions (PUFs) are a promising security primitive to help address these concerns.  PUFs extract secrets from physical characteristics of integrated circuits (ICs)  \cite{PUF_IEEE_Herder} and therefore require minimal or no additional hardware for their operation and are therefore cheaper than other solutions. The instance-specific nature of the secret provide a mean to to uniquely identify and authenticate each device based on a challenge-response mechanism \cite{PUF_Sutar}.
 
-A promising innovative is the use of physical unclonable functions (PUFs). This method avoids the need of having secure EEPROMs and other expensive hardware. In fact, instead of storing secres in digital memory, PUFs derive the secret from the physical characteristics of the integrated circuit (IC).
-
-Several reasons make the use of PUFs more advantageous that the other solutions:
-\begin{enumerate}
-\item PUF hardware uses simple digital circuitry and is therefore cheaper that other EEPROM/RAM solutions with antitamper and cryptographic circuitry.
-\item The secret resides in memory only when the IC is powered on, so attacks could only take place when the chip is powered on.
-\item Invasive attacks are difficult to execute since they would modify the physical characteristic of the chip from which the secret is derived.
-\end{enumerate} 
-
-All these characteristics contribute to making PUFs an interesting technology to look into for providing a secure and cheap authentication method.
+The aim of this project is to design and develop a RAM based PUF for the SEcube\textsuperscript{TM}, a single-chip easily integratable device capable of hiding significant complexity behind a set of simple high-level APIs \cite{SEcube_Prinetto}.
 
 \vspace{1.5em}
-The remainder of the document is organized as follows. 
+The remainder of the document is organized as follows:
+\vspace{1em}
 
+In Chapter 2, a brief background and state of the art of this topic is provided; 
 
-In Chapter 2, ...; 
+In Chapter 3, an implementation  overview is presented;
 
-In Chapter 3, ... 
+In Chapter 4, implementation details are described;
+
+In Chapter 5, results are listed;
+
+In Chapter 6, conclusions and final observations are presented.
+
+Appendix A describes how a demo of the implementation can be run.
+
+Appendix B describes the APIs created for this project.
+
 
 
 
