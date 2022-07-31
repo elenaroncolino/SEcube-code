@@ -95,26 +95,25 @@ Reset_Handler:
   b  LoopCopyDataInit
 
 store_puf:
-       push {lr}
-       ldr r1,=start_flash
-       ldr r5,=start_ram
-       ldr r6,=end_ram
-       eor r2,r2,r2
+       	push {lr}
+		Bl HAL_FLASH_Unlock
+       	ldr r7,=start_flash
+       	ldr r5,=start_ram
+       	ldr r6,=end_ram
+       	eor r2,r2,r2
 
-       push {r0,r1,r2,r3,r4}
-	   Bl HAL_FLASH_Unlock
-	   pop  {r0,r1,r2,r3,r4}
-loop1: ldr r2,[r5]
-    add r5,#4
-    mov r0,  #2
-    push {r0,r1,r2,r3,r4}
-    BL HAL_FLASH_Program		//str r4,[r1]
-    pop  {r0,r1,r2,r3,r4}
-    add r1,#4
-    cmp r5,r6
-    bls loop1
-    pop {lr}
-    bx lr
+loop1: 	ldr r2,[r5]
+    		add r5, #4
+    		mov r0, #2
+		add r1, r7, #0
+    		//push {r0,r1,r2,r3,r4}
+    		BL HAL_FLASH_Program		
+    		//pop  {r0,r1,r2,r3,r4}
+    		add r7,#4
+    		cmp r5,r6
+    		bls loop1
+    		pop {lr}
+    		bx lr
 
 
 CopyDataInit:
