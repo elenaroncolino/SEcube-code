@@ -5,8 +5,16 @@
 
 The current best practice for providing a secure memory or authentication source in mobile systems is to place a secret key in nonvolatile electrically erasable programmable read-only memory (EEPROM) or battery-backed static random-access memory (SRAM) and use hardware cryptographic operations such as digital signature or encryption. Nonetheless, this approach is expensive both in terms of design and of power consumption. In addition, invasive attack mechanisms make such nonvolatile memory vulnerable. Protection agains such attacks is therefore needed and it requires the use of active tamper detection/prevention circuitry which must be continually powered \cite{PUF_IEEE_Herder}.
 
-\section{Physical unclonable functions \cite{PUF_Sud_Devadas}}
+\section{Physical unclonable functions}
 
-Physical unclonable functions (PUFs) are innovative primitives that derive secrets from complex physical characterstics of the ICs rather that storing the secret in digital memory. Because the PUF taps into the random variation during an I Cfabrication process, the secret is extremely difficult to predict or extract. PUFs generate volatile secrets that only exist in a digital form when a chip is powered on and running. This requires the adversary to mount the attack while the IC is running and using the secret, which is significantly harder that discovering non-volatile keys. An invasine attack must measure the PUF delays without altering them or triggering sensing wires that clear out the registers. 
+Physical unclonable functions (PUFs) are innovative primitives that derive secrets from complex physical characterstics of the ICs rather that storing the secret in digital memory. Because the PUF taps into the random variation during an IC fabrication process, the secret is extremely difficult to predict or extract. PUFs generate volatile secrets that only exist in a digital form when a chip is powered on and running. This requires the adversary to mount the attack while the IC is running and using the secret, which is significantly harder that discovering non-volatile keys. An invasine attack must measure the PUF delays without altering them or triggering sensing wires that clear out the registers \cite{PUF_Suh_Devadas}.
 
-The concept of 
+The concept of PUFs is based on the idea that even though the mask and manufacturing process is the same during the creation of the same type of IC, each IC is actually slightly different due to normal manufacturing variability. PUFs leverage this variability to derive the silicon "biometric", a "secret" information that is unique to the chip. This implies that no two identical chips can be manufactured.  
+Although the use of PUFs is a relatively new technology, it should be noted that the concepts of unclonability and uniqueness of ojects have been extensively used in the past \cite{PUF_IEEE_Herder}.
+
+\subsection{Types of PUFs}
+Most of the currently used PUFs fall into two categories: 
+\begin{itemize}
+\item strong PUFs
+\item weak PUFs
+\end{itemize}
