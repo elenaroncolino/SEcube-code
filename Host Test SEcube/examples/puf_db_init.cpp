@@ -33,10 +33,11 @@
 #include <thread>
 #include <iostream>
 #include <string.h>
+#include <unistd.h>
 
 using namespace std;
 
-#define PUFNUM 10
+#define PUFNUM 1000
 
 static int writePUFS(uint32_t* pufs, int puf_num);
 
@@ -196,6 +197,7 @@ int main() {
 	}
 
 
+	sleep(100);
 
 	l1->L1GetPUFS((uint32_t*)PUF_list);  // request all PUFS one by one. Maybe it could be used also for the challenge
 

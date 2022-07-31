@@ -26,8 +26,6 @@
 #include "se3_communication_core.h"
 #include "se3_core.h"
 
-#define FLASH_START 0x8100000
-
 uint8_t algo_implementation;
 uint8_t crypto_algo;
 
@@ -92,7 +90,7 @@ uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_s
 uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
 //	//uint32_t puf = 0;
-	uint32_t puf_num = 10;
+	uint32_t puf_num = 1000;
 	uint32_t flashAddress = 0x080E0000;
 //
 //	*resp_size = 0;	// every time we successfully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
