@@ -1,6 +1,16 @@
 \chapter{Results}
 In this chapter we expect you to list and explain all the results that you have achieved. Pictures can be useful to explain the results. Think about this chapter as something similar to the demo of the oral presentation. You can also include pictures about use-cases (you can also decide to add use cases to the high level overview chapter).
 \section{Known Issues}
-If there is any known issue, limitation, error, problem, etc...explain it in this section. Use a specific subsection for each known issue. Issues can be related to many things, including design issues.
+%If there is any known issue, limitation, error, problem, etc...explain it in this section. Use a specific subsection for each known issue. Issues can be related to many things, including design issues.
+One many issue of this kind of approach could be that there is not the possibility to avoid a Man-in-the-Middle, in order to avoid that a man can steal information from this kind of information it is necessary to encrypt the communication.
+It is important to say that the type of encryption and the necessity to encrypt or not depend from the type of device and by the level of sensibility of the datas
+
+
 \section{Future Work}
-Adding a section about how to improve the project is not mandatory but it is useful to show that you actually understood the topics of the project and have ideas for improvements.
+Many are the implementations that can be done on this project.
+The main one is to evaluate and store in a secure place the hash value of the file containing the challenge-response.
+%\newline
+This kind of implementation can be used in order to ensure the integrity of the challenge-response of a particular device.
+The idea consists in evaluating the hash value of the file before taking information from it and comparing it with the digest that we store in another place.
+If the value is the same it means that the file is not corrupted.
+%Adding a section about how to improve the project is not mandatory but it is useful to show that you actually understood the topics of the project and have ideas for improvements.
