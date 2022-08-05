@@ -394,6 +394,27 @@ namespace L1Key {
 	};
 }
 
+
+
+/*namespace dedicated for the PUF management*/
+namespace L1Puf {
+	struct ListRequestSize {
+		enum {
+			//SE3_CMD1_PUF_LIST_REQ_SIZE = 4 Byte,  ?????
+			REQ_SIZE = 4,
+		};
+	};
+
+
+	struct ListResponseOffset {
+		enum {
+			//SE3_CMD1_PUF_LIST_RESP_OFF_COUNT = 0,
+			COUNT = 0,
+		};
+	};
+}
+
+
 namespace L1Commands {
 	/** These flags are used in L1 APIs to encrypt and sign the requests that are sent to the SEcube.
 	 *  The encryption and signature process triggered by these flags seems to be the cause of random
@@ -420,7 +441,9 @@ namespace L1Commands {
 			CRYPTO_UPDATE = 9,
 			CRYPTO_LIST = 10,
 			FORCED_LOGOUT=11,
-			SEKEY = 12
+			SEKEY = 12,
+			GETPUFS = 13,					// added for puf purpose
+			CHALLENGEPUF = 14				// added for puf purpose
 		};
 	};
 

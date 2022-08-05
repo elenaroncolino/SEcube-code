@@ -36,7 +36,7 @@
  *  \file main.c
  *  \date 10/02/2021
  *  \version SEcube SDK 1.5.1
- *  \brief Device inizialization and main loop.
+ *  \brief Device initialization and main loop.
  */
 
 

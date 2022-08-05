@@ -172,6 +172,20 @@ public:
 	}
 };
 
+class L1GetPufException : public L1Exception {
+public:
+	virtual const char* what() const throw() override {
+		return "Error while getting the pufs!";
+	}
+};
+
+class L1ChallengePufException : public L1Exception {
+public:
+	virtual const char* what() const throw() override {
+		return "Error while challenging the pufs!";
+	}
+};
+
 class L1SelectDeviceException : public L1Exception {
 public:
 	virtual const char* what() const throw() override {

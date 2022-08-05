@@ -66,20 +66,25 @@ defined in linker script */
 
 /**
  * @brief  This is the code that gets called when the processor first
- *          starts execution following a reset event. Only the absolutely
- *          necessary set is performed, after which the application
- *          supplied main() routine is called.
+ *         starts execution following a reset event. Only the absolutely
+ *         necessary set is performed, after which the application
+ *         supplied main() routine is called.
  * @param  None
  * @retval : None
 */
 
-    .section  .text.Reset_Handler
-  .weak  Reset_Handler
-  .type  Reset_Handler, %function
-         .equ start_ram, 0x20000000
-       		.equ end_ram,  0x2002ffff
-       		.equ start_flash,	0x8100000
-		       .equ finish_flash,	0x81fffff
+ .extern HAL_FLASH_Program
+ .extern HAL_FLASH_Unlock
+
+
+
+ .section  .text.Reset_Handler
+ .weak  Reset_Handler
+ .type  Reset_Handler, %function
+ .equ start_ram, 0x20000000
+ .equ end_ram,  0x2002ffff
+ .equ start_flash,  0x80E0000
+ .equ finish_flash,  0x81fffff
   
   
 Reset_Handler:
@@ -90,17 +95,25 @@ Reset_Handler:
   b  LoopCopyDataInit
 
 store_puf:
-       ldr r1,=start_flash
-       ldr r2,=start_ram
-       ldr r3,=end_ram
-       eor r4,r4,r4
-loop1: ldr r4,[r2]
-	      add r2,#4
-  	    str r4,[r1]
-  	    add r1,#4
-	      cmp r2,r3
-	      blt loop1
-	      bx lr
+       	push {lr}
+		Bl HAL_FLASH_Unlock
+       	ldr r7,=start_flash
+       	ldr r5,=start_ram
+       	ldr r6,=end_ram
+       	eor r2,r2,r2
+
+loop1: 	ldr r2,[r5]
+    		add r5, #4
+    		mov r0, #2
+		add r1, r7, #0
+    		//push {r0,r1,r2,r3,r4}
+    		BL HAL_FLASH_Program		
+    		//pop  {r0,r1,r2,r3,r4}
+    		add r7,#4
+    		cmp r5,r6
+    		bls loop1
+    		pop {lr}
+    		bx lr
 
 
 CopyDataInit:

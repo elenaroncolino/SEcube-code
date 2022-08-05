@@ -210,6 +210,8 @@ enum {
 	SE3_ALGO_AES_HMACSHA256 = 3,  ///< AES + HMAC-SHA256
     SE3_ALGO_MAX = 4
 };
+
+
 /**
  *  @}
  */

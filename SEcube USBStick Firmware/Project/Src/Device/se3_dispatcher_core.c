@@ -24,6 +24,7 @@
 
 #include "se3_dispatcher_core.h"
 #include "se3_communication_core.h"
+#include "se3_core.h"
 
 uint8_t algo_implementation;
 uint8_t crypto_algo;
@@ -75,6 +76,101 @@ uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_s
     }
     return SE3_OK;
 }
+
+
+
+
+/*
+ *	req_size 	-> 	dataLen
+ *	req 		->	buffer sent by the host, the challenge.
+ *	resp_size	->	respLen
+ *	resp		->	is the return value
+ */
+
+uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
+{
+//	//uint32_t puf = 0;
+	uint32_t puf_num = 1000;
+	uint32_t flashAddress = 0x080E0000;
+//
+//	*resp_size = 0;	// every time we successfully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
+//	resp[0] = 1;
+//	*resp_size+=1;
+//	resp[1] = 2;
+//	*resp_size+=1;
+//	resp[2] = 3;
+//	*resp_size+=1;
+//	resp[3] = 4;
+//	*resp_size+=1;
+
+
+//	write to memory					for debugging purposes
+//	HAL_FLASH_Unlock();
+//	for(uint64_t i=0; i<4*puf_num; i++)
+//	{
+//	    HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, flashAddress, i);
+//	    flashAddress++;
+//	}
+//	HAL_FLASH_Lock();
+
+	//read
+	flashAddress = 0x080E0000;
+	for(uint32_t i=0; i<4*puf_num; i++)
+	{
+	    *((uint8_t *)resp + i) = *(uint8_t *)flashAddress;
+	    flashAddress++;
+	    *resp_size+=1;
+	}
+
+
+
+	return SE3_OK;
+}
+
+
+uint32_t puf_challenge(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
+{
+	uint8_t mem_puf[4];
+    uint32_t mem_puf32;
+	uint8_t challenge[4];
+    uint8_t host_puf[4];
+    uint32_t host_puf32;
+
+//    resp[3] = req[0];
+//    resp[2] = req[1];
+//    resp[1] = req[2];
+//    resp[0] = req[3];
+
+   	// Big endian
+    for(int i=0; i<4; i++){
+    	challenge[i] = req[4+i];
+	    host_puf[i] = req[i];
+    }
+
+	//read from flash
+	for(uint8_t i=0; i<4; i++)
+	{
+	    mem_puf[i] = *(uint8_t *)challenge;
+	    *challenge+=1;
+	}
+	*resp_size=1;
+
+
+	//converting into 32bit                // other solutions are also possible
+	mem_puf32 = mem_puf[3] | (mem_puf[2] << 8) | (mem_puf[1] << 16) | (mem_puf[0] << 24);
+	host_puf32 = host_puf[3] | (host_puf[2] << 8) | (host_puf[1] << 16) | (host_puf[0] << 24);;
+	if(mem_puf32 == host_puf32)
+		*resp = 1;
+	else
+		*resp = 0;
+
+
+	return SE3_OK;
+}
+
+
+
+
 
 uint16_t error(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
@@ -450,6 +546,7 @@ uint16_t key_edit(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, ui
 
 uint16_t key_find(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
+	printf("req_size %d\n",req_size);
     if (req_size != 4) {
         SE3_TRACE(("[key_find] req size mismatch\n"));
         return SE3_ERR_PARAMS;
@@ -472,6 +569,9 @@ uint16_t key_find(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, ui
     }
 	return SE3_OK;
 }
+
+
+
 
 uint16_t dispatcher_call(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
