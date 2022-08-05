@@ -25,14 +25,14 @@ The fundamental difference between weak and strong PUFs is the domain of \emph{f
 
 Both weak and strong PUFs rely on analog physical properties of the fabricated circuit to derive secret information and therefore have noise and variability associated with them. For this reason, modern PUFs designs employ multiple error-correction techniques to mitigate the noise and improve realiability.
 
-Examples of strong PUFs include optical and arbiter PUFs, while ring-oscillator and SRAM PUFs are example of weak ones.  \cite{PUF_IEEE_Herder}
+Examples of strong PUFs include optical and arbiter PUFs, while ring-oscillator and SRAM PUFs are example of weak ones. \cite{PUF_IEEE_Herder}
 
 \subsection{SRAM PUF}
 SRAM PUFs exploit the positive feedback loop in a SRAM. A SRAM has two stable states (used to store a 1 or a 0), and positive feedback to force the cell into one of these two state and to prevent an accidental state transition. 
 
 Figure \ref{fig:SRAM_cell} shows a common six-transistor configuration of an SRAM consisting of cross-coupled CMOS inverters (M\textsubscript{1}-M\textsubscript{4}) and access transistors (M\textsubscript{5}-M\textsubscript{6}).
 
-Theoretically, when a device with a SRAM is powered on and no write operation is performed, the SRAM cell exists in a metastable state where the feedback pushing the cell toward the "1" state equals the feedback pushing the cell toward the "0" state, thereby keeping the cell indefinitely in this metastable state. However, in actual implementations one feedback loop is always slightly stronger than the other due to small transistor threshold mismatches resulting from process variation. This means that the cell at start up relaxes into either the "1" or "0" state. The final state of the cell depends on the difference between two feeback loops and it is therefore not strongly impacted by temperature or power supply fluctuations. Nonetheless, if the two feedback loops are sufficiently close then random noise or other small environmental fluctuations can result in an output bit flip. Therefore, error correction of this output will be necessary. Error correction can be performed by using repeated measurement: since the relative strengths between the two feedback is relatively static, by measuring the outputs of the cell repeatedly one can assess the stability of a SRAM PUF bit and selectively use the most stable bits as the PUF output.  \cite{PUF_IEEE_Herder}
+Theoretically, when a device with a SRAM is powered on and no write operation is performed, the SRAM cell exists in a metastable state where the feedback pushing the cell toward the "1" state equals the feedback pushing the cell toward the "0" state, thereby keeping the cell indefinitely in this metastable state. However, in actual implementations one feedback loop is always slightly stronger than the other due to small transistor threshold mismatches resulting from process variation. This means that the cell at start up relaxes into either the "1" or "0" state. The final state of the cell depends on the difference between two feeback loops and it is therefore not strongly impacted by temperature or power supply fluctuations. Nonetheless, if the two feedback loops are sufficiently close then random noise or other small environmental fluctuations can result in an output bit flip. Therefore, error correction of this output will be necessary. Error correction can be performed by using repeated measurement: since the relative strengths between the two feedback is relatively static, by measuring the outputs of the cell repeatedly one can assess the stability of a SRAM PUF bit and selectively use the most stable bits as the PUF output. \cite{PUF_IEEE_Herder}
 
 \begin{figure}[h!]
 \vspace{0.5cm}
@@ -43,6 +43,14 @@ Theoretically, when a device with a SRAM is powered on and no write operation is
 
 
 \section{SEcube\textsuperscript{TM}}
+The SEcube\textsuperscript{TM} (Secure Environment cube) Open Security Platform is an open source security-oriented hardware and software platform. It provides hardware and software holistic security focusing on common operational security concepts like groups and policies instead of classical security concepts such as cryptographic algorithms and keys \cite{SEcubeDoc}. The SEcube\textsuperscript{TM} is the smallest reconfigurable silicon that combines three main cores in a single-chip design. It embeds a low-power ARM Cortex-M4 processor, a flexible and fast Field-Programmable-Gate-Array (FPGA), and an EAL5+ certified Security Controller (SmartCard), as shown in Figure \ref{fig:SEcubeComponents}. This make the SEcube a secure environment since it is based on a modular software architecture where all functions are isolated \cite{SEcubeSite}.
+
+\begin{figure}[h!]
+\vspace{0.5cm}
+\includegraphics[width=\textwidth]{images/SEcubeComponents.png}
+\caption{The three components of the SEcube\textsuperscript{TM}: the ARM Cortex-M4 processor, the FPGA and the EAL5+ SmartCard\cite{SEcubeDoc}. }
+\label{fig:SEcubeComponents} % This is the image label, with which you can refer to the image in any document location.
+\end{figure}
 
 
 
