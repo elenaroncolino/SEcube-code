@@ -22,12 +22,26 @@ The implementation of this project can be divided in two flow:
 	\item The second flow consists in the challenge and response authentication of the device
 \end{enumerate}
 
-Device side: parlare delle tre suddivisioni tra codice assembli e codice c (2 parti una per ogni flow)
+Here will be explained only a general idea of the implementation and in the next chapter will be described deeply the functioning.
 
-Host side: solo due implementazioni una per ogni flow (nella prima si ciphra il testo, nella seconda si controlla il testo cifrato)
+\section {Device side} 
+On the device side both of the flows have a common important operation that has to be done. This operation consists in taking the values present in the SRAM when this one is switched on and storing them in a secure place. Obviously this operation is the first operation that has always been done by the device as soon as it is switched on.
+
+Secondly, if this is the first time that it communicates with this particular host it waits until the host asks it for all the value that it has just taken from the SRAM in order to implement the challenge-response authentication for the next time.
+
+On the other hand, it waits until the host sends to it a particular challenge, this challenge will be the index of a determined response, so the device takes the response and sends them to the host.
+After that the device is authenticated and the can starts to communicate.
 
 
 
+\section {Host side} 
+On the host side the type of works is a little bit different from the device side.
+When the connection is istantiated with the device for the first time it asks to the device all the values needed to implement the challenge-response authentication; the Host is going to store the hash values of these datas in a file.
+
+During all the next connections with the device, the Host send a particular challenge to the device and waits for the respective response.
+After it receives it, It is going to evaluate the digest of this value, giving in input to the hash function and it compare it with the value that it has inside the file.
+
+If the two digests are the same it means that the device is the correct one and so the connection can starts; otherwise the host stops the connection.
 
 
 %In this chapter you should provide a general overview of the project, explaining what you have implemented staying at a high-level of abstraction, without going too much into the details. Leave details for the implementation chapter. This chapter can be organized in sections, such as goal of the project, issues to be solved, solution overview, etc.\\It is very important to add images, schemes, graphs to explain the original problem and your solution. Pictures are extremely useful to understand complex ideas that might need an entire page to be explained.\\Use multiple sections to explain the starting point of your project, the last section is going to be the high-level view of your solution...so take the reader in a short `journey` to showcase your work.
