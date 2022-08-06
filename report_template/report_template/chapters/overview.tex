@@ -18,11 +18,19 @@ Once a challenge-response is used, it has to be eliminated and not used anymore 
 
 The implementation of this project can be divided in two flow:
 \begin{enumerate}
-	\item The first flow consists in the exchange of all the challenge and response information between host and device
+	\item The first flow consists in the exchange of all the challenge and response information between host and device 
 	\item The second flow consists in the challenge and response authentication of the device
 \end{enumerate}
 
 Here will be explained only a general idea of the implementation and in the next chapter will be described deeply the functioning.
+
+\begin{figure}[H]
+\centering
+  \includegraphics[width=5cm]{images/flow_1.png}
+  \includegraphics[width=5cm]{images/flow_2.png}
+  \caption{Flow 1 and Flow 2}
+  \label{fig:sub2}
+\end{figure}
 
 \section {Device side} 
 On the device side both of the flows have a common important operation that has to be done. This operation consists in taking the values present in the SRAM when this one is switched on and storing them in a secure place. Obviously this operation is the first operation that has always been done by the device as soon as it is switched on.
