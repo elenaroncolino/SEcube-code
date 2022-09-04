@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+environment/buildEnvironmentInclude/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/CPATH/delimiter=;
+environment/buildEnvironmentInclude/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/CPATH/operation=remove
+environment/buildEnvironmentInclude/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/C_INCLUDE_PATH/delimiter=;
+environment/buildEnvironmentInclude/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/C_INCLUDE_PATH/operation=remove
+environment/buildEnvironmentInclude/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/append=true
+environment/buildEnvironmentInclude/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/appendContributed=true
+environment/buildEnvironmentLibrary/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/LIBRARY_PATH/delimiter=;
+environment/buildEnvironmentLibrary/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/LIBRARY_PATH/operation=remove
+environment/buildEnvironmentLibrary/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/append=true
+environment/buildEnvironmentLibrary/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1341660165/appendContributed=true

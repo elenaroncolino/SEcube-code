@@ -239,16 +239,14 @@ static int writePUFS(uint32_t* pufs, int puf_num){
 		return 1;
 	}
 	else{
-		itoa((int)pufs[0],str_puf,10);
-		strcat(str_puf, "\n");
+		sprintf(str_puf, "%d\n", (int)pufs[0]);
 		fprintf(fp,str_puf);			//write to file
 
 		fclose(fp);
 		FILE *fp = fopen("PUFS.txt", "a");
 
 		for(int i=1; i<puf_num; i++){
-			itoa((int)pufs[i],str_puf,10);
-			strcat(str_puf, "\n");
+			sprintf(str_puf, "%d\n", (int)pufs[i]);
 			fprintf(fp,str_puf);		//write to file
 		}
 	}
