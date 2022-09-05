@@ -121,13 +121,6 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 	    flashAddress++;
 	    *resp_size+=1;
 
-//	    if(resp_size%4 == 0 && resp_size!=0){
-//	    	uint16_t rc = crypto_init(SE3_CMD1_CRYPTO_INIT_REQ_SIZE, (uint8_t *)resp - 4, &response_size, (uint8_t *)resp - 4);
-//	    	if((rc != SE3_OK) || (response_size != SE3_CMD1_CRYPTO_INIT_RESP_SIZE)){
-//	    		return SE3_ERR_RESOURCE;
-//	    	}
-//	    }
-
 	}
 
 
