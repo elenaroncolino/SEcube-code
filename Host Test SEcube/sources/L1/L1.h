@@ -166,7 +166,7 @@ public:
 
 	/* @brief List the PUFs stored inside the memory of a SEcube device.
 	 * @param [in] 32 bit challenge that corresponds to an address + the expected PUF. the comparison will be done from the board
-	 * @param [out] 1 if pufs correspond, 0 if they dont.
+	 * @param [out] 1 if pufs correspond, 0 if they don't.
 	 * @detail  */
 	void L1ChallengePUF(uint64_t challenge, uint8_t* res);
 

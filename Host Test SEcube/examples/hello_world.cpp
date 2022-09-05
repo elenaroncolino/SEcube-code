@@ -184,7 +184,7 @@ int hello_world() {
 	uint64_t challenge = address;
 	challenge = challenge<<32;
 	challenge += host_puf;
-	l1->L1ChallengePUF(challenge, &res);
+	//l1->L1ChallengePUF(challenge, &res);
 	printf("res->%X",res);
 
 	return 0;

@@ -40,7 +40,7 @@ using namespace std;
 static uint32_t readPUF(uint32_t challenge_off);
 
 // RENAME THIS TO main()
-int puf_challenge() {
+int main() {
 	/* we recommend using smart pointers to manage L0 and L1 objects in order
 	   to ensure proper memory management by their constructors and destructors. */
 	unique_ptr<L0> l0 = make_unique<L0>();
@@ -140,22 +140,24 @@ int puf_challenge() {
 
 	/*Code added for the PUF management*/
 
-	uint8_t res=0;
+	uint8_t res;
 	uint32_t host_puf = 0;
 	
 	
-	uint32_t address = 0x080E0004;					// input
+	uint32_t address = 0x080E0014;					// input
 	uint32_t local_addr = (address - MEMBASE);		// DB puf address. In this case we are talking about the line in the txt file
 	if(local_addr%4 !=0 ){
 		printf("[host ERROR]: challenge address 0x%X is not word aligned", address);
 		return 1;
 	}
 	host_puf = readPUF(local_addr/4);
-	printf("challenge, puf-> 0x%X, 0x%X \n", address, host_puf);
 
 	uint64_t challenge = (uint64_t)address<<32 | (uint64_t)host_puf;	// in challenge will be stored both the challenge and the expected result
-	l1->L1ChallengePUF(challenge, &res);
-	printf("res->%X",res);
+	printf("challenge, puf-> 0x%X, 0x%X \n", (uint32_t)(challenge>>32), (uint32_t)challenge);
+
+	l1->L1ChallengePUF(challenge, (uint8_t*)&res);
+
+	printf("res->0x%X",res);
 
 	return 0;
 }

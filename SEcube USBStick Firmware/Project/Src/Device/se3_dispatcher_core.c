@@ -120,6 +120,14 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 	    *((uint8_t *)resp + i) = *(uint8_t *)flashAddress;
 	    flashAddress++;
 	    *resp_size+=1;
+
+//	    if(resp_size%4 == 0 && resp_size!=0){
+//	    	uint16_t rc = crypto_init(SE3_CMD1_CRYPTO_INIT_REQ_SIZE, (uint8_t *)resp - 4, &response_size, (uint8_t *)resp - 4);
+//	    	if((rc != SE3_OK) || (response_size != SE3_CMD1_CRYPTO_INIT_RESP_SIZE)){
+//	    		return SE3_ERR_RESOURCE;
+//	    	}
+//	    }
+
 	}
 
 
@@ -130,36 +138,30 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 
 uint32_t puf_challenge(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
-	uint8_t mem_puf[4];
-    uint32_t mem_puf32;
+	uint8_t host_puf[4];
 	uint8_t challenge[4];
-    uint8_t host_puf[4];
+	uint32_t mem_puf;
+	uint32_t challenge32;
+
     uint32_t host_puf32;
 
-//    resp[3] = req[0];
-//    resp[2] = req[1];
-//    resp[1] = req[2];
-//    resp[0] = req[3];
 
-   	// Big endian
+   	// Little endian: req=0332000004000E08
     for(int i=0; i<4; i++){
     	challenge[i] = req[4+i];
 	    host_puf[i] = req[i];
     }
 
+    //converting into 32bit considering endianess
+    challenge32 = (uint32_t)challenge[0] | ((uint32_t)challenge[1] << 8) | ((uint32_t)challenge[2] << 16) | ((uint32_t)challenge[3] << 24);
 	//read from flash
-	for(uint8_t i=0; i<4; i++)
-	{
-	    mem_puf[i] = *(uint8_t *)challenge;
-	    *challenge+=1;
-	}
+    mem_puf = *(uint32_t *)challenge32;
 	*resp_size=1;
 
+	//converting into 32bit considering endianess
+	host_puf32 = (uint32_t)host_puf[0] | ((uint32_t)host_puf[1] << 8) | ((uint32_t)host_puf[2] << 16) | ((uint32_t)host_puf[3] << 24);
 
-	//converting into 32bit                // other solutions are also possible
-	mem_puf32 = mem_puf[3] | (mem_puf[2] << 8) | (mem_puf[1] << 16) | (mem_puf[0] << 24);
-	host_puf32 = host_puf[3] | (host_puf[2] << 8) | (host_puf[1] << 16) | (host_puf[0] << 24);;
-	if(mem_puf32 == host_puf32)
+	if(mem_puf == host_puf32)
 		*resp = 1;
 	else
 		*resp = 0;

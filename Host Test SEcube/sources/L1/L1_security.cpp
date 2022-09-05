@@ -663,11 +663,10 @@ void L1::L1GetPUFS(uint32_t* puf){
 		throw getPufExc;
 	}
 
-	if(respLen != 4*1000){								//expect 10 pufs 4 bytes each
+	if(respLen != 4*1000){								//expect 1000 pufs 4 bytes each
 		printf("[error] not all pufs were received\n");
 		//throw findPufExc;
 	} else {
-		//uint8_t res;
 		this->base.ReadSessionBuffer((uint8_t*)puf, L1Response::Offset::DATA, 4*1000);  // ?? offset
 	}
 
@@ -690,7 +689,7 @@ void L1::L1ChallengePUF(uint64_t challenge, uint8_t* res){
 		printf("[error] no result received\n");
 		//throw challengePufExc;
 	} else {
-		this->base.ReadSessionBuffer((uint8_t*) res, L1Response::Offset::DATA, 1);
+		this->base.ReadSessionBuffer((uint8_t*)res, L1Response::Offset::DATA, 1);
 	}
 
 }
