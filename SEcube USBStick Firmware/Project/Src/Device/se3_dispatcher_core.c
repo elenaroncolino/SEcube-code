@@ -89,7 +89,6 @@ uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_s
 
 uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
-//	//uint32_t puf = 0;
 	uint32_t puf_num = 1000;
 	uint32_t flashAddress = 0x080E0000;
 //
@@ -114,16 +113,13 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 //	HAL_FLASH_Lock();
 
 	//read
-	flashAddress = 0x080E0000;
+//	flashAddress = 0x080E0000;
 	for(uint32_t i=0; i<4*puf_num; i++)
 	{
 	    *((uint8_t *)resp + i) = *(uint8_t *)flashAddress;
 	    flashAddress++;
 	    *resp_size+=1;
-
 	}
-
-
 
 	return SE3_OK;
 }
@@ -145,13 +141,13 @@ uint32_t puf_challenge(uint16_t req_size, const uint8_t* req, uint16_t* resp_siz
 	    host_puf[i] = req[i];
     }
 
-    //converting into 32bit considering endianess
+    //converting into 32bit considering endianness
     challenge32 = (uint32_t)challenge[0] | ((uint32_t)challenge[1] << 8) | ((uint32_t)challenge[2] << 16) | ((uint32_t)challenge[3] << 24);
 	//read from flash
     mem_puf = *(uint32_t *)challenge32;
 	*resp_size=1;
 
-	//converting into 32bit considering endianess
+	//converting into 32bit considering endianness
 	host_puf32 = (uint32_t)host_puf[0] | ((uint32_t)host_puf[1] << 8) | ((uint32_t)host_puf[2] << 16) | ((uint32_t)host_puf[3] << 24);
 
 	if(mem_puf == host_puf32)

@@ -142,22 +142,23 @@ int main() {
 
 	uint8_t res;
 	uint32_t host_puf = 0;
+	uint32_t address = 0x080E0014;																// input
 	
-	
-	uint32_t address = 0x080E0014;					// input
-	uint32_t local_addr = (address - MEMBASE);		// DB puf address. In this case we are talking about the line in the txt file
+	//using the address to access the file line
+	uint32_t local_addr = (address - MEMBASE);													// DB puf address. In this case we are talking about the line in the txt file
 	if(local_addr%4 !=0 ){
 		printf("[host ERROR]: challenge address 0x%X is not word aligned", address);
 		return 1;
 	}
-	host_puf = readPUF(local_addr/4);
+	host_puf = readPUF(local_addr/4);															// access the line
 
-	uint64_t challenge = (uint64_t)address<<32 | (uint64_t)host_puf;	// in challenge will be stored both the challenge and the expected result
-	printf("challenge, puf-> 0x%X, 0x%X \n", (uint32_t)(challenge>>32), (uint32_t)challenge);
+	// prepare parameters to be passed to the board
+	uint64_t challenge = (uint64_t)address<<32 | (uint64_t)host_puf;							// in challenge will be stored both the challenge and the expected result
+	printf("challenge, puf -> 0x%X, 0x%X \n", (uint32_t)(challenge>>32), (uint32_t)challenge);	// just for debugging
 
 	l1->L1ChallengePUF(challenge, (uint8_t*)&res);
 
-	printf("res->0x%X",res);
+	printf("res->%X",res);
 
 	return 0;
 }

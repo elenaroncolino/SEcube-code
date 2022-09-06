@@ -199,7 +199,7 @@ int writePUFS() {
 
 	sleep(100);
 
-	l1->L1GetPUFS((uint32_t*)PUF_list);  // request all PUFS one by one. Maybe it could be used also for the challenge
+	l1->L1GetPUFS((uint32_t*)PUF_list);  // request all PUFS.
 
 	printf("\n\n\n\n Print PUFs \n---------\n");
 	for(int i=0; i<PUFNUM; i++)

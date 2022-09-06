@@ -6,12 +6,17 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Flow 1 and Flow 2\relax }}{7}{figure.caption.7}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Assembly code to store PUFs into the flash memory. \relax }}{9}{figure.caption.8}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Function responsible for communicating with the board. \relax }}{9}{figure.caption.8}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Assembly code to store PUFs into the flash memory. \relax }}{10}{figure.caption.9}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces puf\_retreive function. \relax }}{10}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces puf\_challenge.cpp\relax }}{11}{figure.caption.11}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces L1ChallengePUF function for transmitting challenge and response PUF\relax }}{11}{figure.caption.12}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces puf\_challenge\_board function on the board side\relax }}{12}{figure.caption.13}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {A.1}{\ignorespaces Erase flash\relax }}{14}{figure.caption.12}%
-\contentsline {figure}{\numberline {A.2}{\ignorespaces Chip flash\relax }}{14}{figure.caption.13}%
-\contentsline {figure}{\numberline {A.3}{\ignorespaces Puf db init\relax }}{14}{figure.caption.14}%
-\contentsline {figure}{\numberline {A.4}{\ignorespaces Puf challenge\relax }}{14}{figure.caption.15}%
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Erase flash\relax }}{17}{figure.caption.15}%
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Chip flash\relax }}{17}{figure.caption.16}%
+\contentsline {figure}{\numberline {A.3}{\ignorespaces Puf db init\relax }}{17}{figure.caption.17}%
+\contentsline {figure}{\numberline {A.4}{\ignorespaces Puf challenge\relax }}{17}{figure.caption.18}%
 \addvspace {10\p@ }

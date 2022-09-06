@@ -654,7 +654,7 @@ void L1::L1FindKey(uint32_t keyId, bool& found) {
 /*added functions for puf purpose*/
 void L1::L1GetPUFS(uint32_t* puf){
 	L1GetPufException getPufExc;
-	uint16_t dataLen = 0;								//size of data to be sent. we do not send any data
+	uint16_t dataLen = 0;																//size of data to be sent. we do not send any data
 	uint16_t respLen = 0;
 	try {
 		TXRXData(L1Commands::Codes::GETPUFS, dataLen, 0, &respLen);
@@ -663,13 +663,12 @@ void L1::L1GetPUFS(uint32_t* puf){
 		throw getPufExc;
 	}
 
-	if(respLen != 4*1000){								//expect 1000 pufs 4 bytes each
+	if(respLen != 4*1000){																//expect 1000 pufs 4 bytes each
 		printf("[error] not all pufs were received\n");
 		//throw findPufExc;
 	} else {
 		this->base.ReadSessionBuffer((uint8_t*)puf, L1Response::Offset::DATA, 4*1000);  // ?? offset
 	}
-
 }
 
 void L1::L1ChallengePUF(uint64_t challenge, uint8_t* res){

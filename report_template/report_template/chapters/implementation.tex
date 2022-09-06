@@ -1,29 +1,58 @@
 \chapter{Implementation Details}
-This is where you explain what you have implemented and how you have implemented it. Place here all the details that you consider important, organize the chapter in sections and subsections to explain the development and your workflow.\\Given the self-explicative title of the chapter, readers usually skip it. This is ok, because this entire chapter is simply meant to describe the details of your work so that people that are very interested (such as people who have to evaluate your work or people who have to build something more complex starting from what you did) can fully understand what you developed or implemented.\\Don't worry about placing too many details in this chapter, the only essential thing is that you keep everything tidy, without mixing too much information (so make use of sections, subsections, lists, etc.). As usual, pictures are helpful.
+In this chapter a more in depth explanation of the implementation of the project will be provided. The operations of generating the PUFs and applying a challenge are done in part on the host side and in part on the board side.
 
-\section {Device side}
+The Host is responsible of communicating to the board what operation must be done, by sending command codes, and getting back the results. Also the Host is the one that will have access to the PUF database.
+The Board is responsible to perform the hashing of the PUFs and provide access to the SRAM, where the PUFs will be stored.
 
-The operations that the device must be able to perform are two:
+The host will ask from the board to perform two operations
 \begin{itemize}
-	\item Read the PUFs from the RAM and store them in the SRAM, to be done the moment the device is powered on.
-	\item Given a challenge,  compare the PUF found in the DB of PUFs and the one found in the SRAM.
+	\item Get the PUFs and store them in the DB of PUFs.
+	\item Once a challenge is provided, access the DB and get the PUF. Then pass the challenge and the expected result to the board which will compare it to the PUF that is stored in memory.
 \end{itemize}
 
-The implementation of both functionalities is based on the provided code and changes to it have been made to fit our purpose.
+The operations that the board must be able to perform are three:
+\begin{itemize}
+	\item Read the PUFs from the RAM and store them in the SRAM. This must be done as soon as the device is powered on.
+	\item Read the PUFs from the SRAM, hash them and send them back to the host
+	\item Once the challenge is provided read the PUF from the SRAM, compute the hash and compare it to the hashed PUF given by the host.
+\end{itemize}
 
-\subsection{Generation of PUFs}
-
-To make the retrieval of the PUFs possible two files had to be changed
+ possible two files had to be changed
 \begin{enumerate}
 	\item $USBStick > Startup > startup\_stm32f429nihx.s$
 	\item $USBStick > Src > Device > se3\_dispatcher\_core.c$
 \end{enumerate}
 
-The .s file is the one in which the reset handler can be found and it will be executed before the main. Since the the content of the RAM will be overwritten the PUFs must be copied as soon as possible. For this reason this operation has been done before any memory initialization.
+\section {PUF retrieval and DB initialization}
 
-Using the reference manual for the MCU (STM32f429) we know the memory mapping of both the SRAM(0x020000000 -  0x02002FFFF) and flash memory(0x08000000 - 0x081FFFFF). Starting from that we scanned the SRAM and loaded the content to a part of the flash memory that will not compromise sensible data.
+At the beginning it is necessary to access the RAM at the correct time and copy the values found in the SRAM so that they can be read later on. Once we can read them we store them so that later on we can refer to them as the PUFs that can identify the device. To perform this operation we have some things to be done on both host and board side.
 
-Since the the flash memory needs control registers to be set to guaranty access we called the HAL functions in the assembly code. More precisely the functions to unlock and program/write in memory. The code written to perform this operation is provided in figure \ref{fig:code_assembly}
+\subsection{Host side}
+
+To get the correct data from the RAM that represent the PUFs it is necessary to access the memory immediately after the board startup and before writing any data to the SRAM. This means that an erase of the memory must happen and data must be overwritten. So before using the functions a board initialization is performed.
+
+Once this is done the host works in two stages. One to access the DB and one to prepare the parameters to be send to the board.
+
+For the DB initialization, which is done in the $examples > puf\_db\_init.cpp$, we don't need to send any parameters, except for the pointer to the returned data.
+The actual communication with the board is done through the use of functions implemented in the L1\_security library. In that library we have provided the $L1GetPUFS$ function that is responsible of transmitting the parameters to the board and receiving the results from the board.
+
+\begin{figure}[h!]
+	\vspace{0.5cm}
+	\includegraphics[width = 0.8\textwidth]{images/L1GetPUFS.png}
+	\caption{Function responsible for communicating with the board. }
+	\label{fig:L1GetPUFS}
+\end{figure}
+
+In that piece of code we can see that we are expecting 1000 PUFS but byte since the TXRX function works in bytes. In that operation we must provide the size of the data we are transmitting/receiving and also the ID of the command to execute on the board side.
+The host is then responsible then to write that data to the DB.
+
+\subsection{Board side}
+
+In this stage the board is responsible of retreiving the initial data, PUFs, from the RAM and store them to the SRAM so that they can be accessed safely later.
+
+Since the the content of the RAM will be overwritten the PUFs must be copied as soon as possible. For this reason this operation has to be done before any memory initialization. So this operation is done in the startup assembly file in which the reset handler can be found. This way we guarantee that we read the RAM before any memory initialization.
+
+Since the the flash memory needs control registers to be accessed safely we relied on the HAL functions. More precisely the functions to unlock and program/write in memory. The code written to perform this operation is provided in figure \ref{fig:code_assembly}
 
 \begin{figure}[h!]
 	\vspace{0.5cm}
@@ -32,25 +61,62 @@ Since the the flash memory needs control registers to be set to guaranty access 
 	\label{fig:code_assembly}
 \end{figure}
 
-At the end of the execution of this code we expect a number of PUFs to be stored in the flash memory which will be accessible once we enter the main and enter the execution loop where we can call our functions and access the content of the SRAM
+Using the reference manual for the MCU (STM32f429) we know the memory mapping of both the SRAM(0x020000000 -  0x02002FFFF) and flash memory(0x08000000 - 0x081FFFFF). Starting from that we scanned the SRAM and loaded the content to a part of the flash memory that will not compromise sensible data.
 
-Once we have the PUFs in memory we need to able to access them. This is done through the execution of two functions $puf\_retreive()$ and $puf\_challenge()$. These two functions are the ones that will be called when the appropriate command will be sent from the host towards the device. These two functions can be found in the $se3\_dispatcher\_core.c$ file.
+At the end of the execution of the assembly code we expect 1000 PUFs to be stored in the flash memory which will be accessible once we enter the main and the execution loop where we can call implemented functions and access the content of the SRAM.
 
-To make the command call possible it is necessary to define these commands in the $se3_dispatcher_core.h$ which must reflect the number associated also to the host side for the same command.
+Once we have the PUFs in memory we need to able to access them. This is done through the $puf\_retreive()$ function, found in the $se3\_dispatcher\_core.c$ file. This is the function associated to the command code transmitted on the Host side.
 
-\subsubsection{puf\_retreive()}
+To make the command call possible it is necessary to define these commands in the $se3\_dispatcher\_core.h$ which must reflect the number associated to the same also on the host side.
 
-This function is on the board side and as such it has to be called from the host side by sending, besides the parameters, the correct command code to call it. It can communicate with the host though the received and sent data and also the size of that data. The size of the received and sent data has been used as a correctness check. As for the data itself, since the host library works on bytes, also on the board side we worked with bytes. This means that the access to the SRAM is done bytewise.
+\begin{figure}[h!]
+	\vspace{0.5cm}
+	\includegraphics[width = 0.8\textwidth]{images/puf_retreive().png}
+	\caption{puf\_retreive function. }
+	\label{fig:puf_retreive}
+\end{figure}
 
-This function will start from a predefined position in memory and will read e predefined number of addresses accessing the PUFs stored on startup. As a return parameter to the Host it will pass the vector of all the PUFs read. Then the Host is responsible to manage them.
-
-
-\subsubsection{puf\_challenge()}
-
-This function is called and defined in the same way as the puf\_retreive function with the difference being the actual operations performed. In fact now the Host must also provide the challenge and the challenge response so that we can read the SRAM of the board access the memory at the location indicated by the challenge and read the content expecting it to be the same as the one passed to it. In the function the comparison will be made and a found not found response will be sent back to the host.
-
-In this case the operation is simply a read from memory but particular attention was given to the way data is sent since we are again working with bytes and a reconstruction on 32 bits will be necessary.
+In this function we simply read from the SRAM the PUFS that we stored in the assembly code. This data is the data that will be sent to the host side, as parameter resp, once they have been hashed. 
 
 
-\section {Host side} 
+\section {Application of a challenge and verification of the device} 
 \label{section:impl_host}
+
+Once we have the DB filled with the PUFs we can use that to check the authenticity of the board by comparing the PUFs in the DB and the ones regenerated by the board. Again to realize the functionality we will have to do some things on the host and some on the board side.
+
+\subsection{Host side}
+
+The approach is similar to the one used for reading the PUFs but now we have different parameters to transmit. In fact we need to provide both the challenge and the PUF read from the DB. So the Host is responsible of getting the challenge, use it to access the DB and retrieve the response PUF. From there a compaction of both parameters into one is done so that they can be sent as one parameter to the board. These operations are done in the $examples > puf\_challenge.cpp$ file shown in figure \ref{fig:puf_challenge.cpp}
+
+\begin{figure}[h!]
+	\vspace{0.5cm}
+	\includegraphics[width = 0.8\textwidth]{images/puf_challenge.png}
+	\caption{puf\_challenge.cpp}
+	\label{fig:puf_challenge.cpp}
+\end{figure}
+
+Then the next stage is to perform the actual transmit/receive done in the L1\_security library in the L1ChallengePUF function, shown in figure \ref{fig:L1ChallengePUF}.
+
+\begin{figure}[h!]
+	\vspace{0.5cm}
+	\includegraphics[width = 0.8\textwidth]{images/L1ChallengePUF.png}
+	\caption{L1ChallengePUF function for transmitting challenge and response PUF}
+	\label{fig:L1ChallengePUF}
+\end{figure}
+
+In this function we have some data to transmit and since the TXRX works with bytes we have to indicate the size in bytes which is 8 since we transmit 32bit challenge and 32bit PUF. Then as response we expect just one byte to indicate match found (1) or match not found (0).
+
+\subsection{Board side}
+
+The Board at this point has been provided with the challenge and the PUF to use as reference.
+
+The first operation to be done is to extract the compacted data received and obtain again the challenge and the PUF. In doing so we must be aware of the endianness used. From there we can access the SRAM using the challenge as an address and the content must be the PUF.
+
+Since the PUF read from the DB is hashed the board must also perform a hashing on the PUF read from the memory before comparing it to the one from th DB, the result of which will be sent back and evaluated by the Host.
+
+\begin{figure}[h!]
+	\vspace{0.5cm}
+	\includegraphics[width = 0.8\textwidth]{images/puf_challenge_board.png}
+	\caption{puf\_challenge\_board function on the board side}
+	\label{fig:puf_challenge_board}
+\end{figure}
