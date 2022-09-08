@@ -683,7 +683,6 @@ void L1::L1ChallengePUF(uint64_t challenge, uint8_t* res){
 	catch(L1Exception& e) {
 		throw challengePufExc;
 	}
-	printf("respLen = %d\n", respLen);
 	if(respLen != 1){								//expect 1 8bit value
 		printf("[error] no result received\n");
 		//throw challengePufExc;

@@ -33,6 +33,7 @@ SE3_LOGIN_STATUS login_struct;
 
 static void login_cleanup();
 bool key_len_valid(uint16_t len);
+int hammingDistance(int n1, int n2);
 
 /* simple dispatcher for sekey-related operations */
 uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
@@ -112,8 +113,16 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 //	}
 //	HAL_FLASH_Lock();
 
+
+	// encryption
+//	for(uint32_t i=0; i<puf_num; i++)
+//	{
+//		*(uint32_t *)flashAddress = 0xF;
+//		flashAddress+=4;
+//	}
+
 	//read
-//	flashAddress = 0x080E0000;
+	flashAddress = 0x080E0000;
 	for(uint32_t i=0; i<4*puf_num; i++)
 	{
 	    *((uint8_t *)resp + i) = *(uint8_t *)flashAddress;
@@ -150,15 +159,30 @@ uint32_t puf_challenge(uint16_t req_size, const uint8_t* req, uint16_t* resp_siz
 	//converting into 32bit considering endianness
 	host_puf32 = (uint32_t)host_puf[0] | ((uint32_t)host_puf[1] << 8) | ((uint32_t)host_puf[2] << 16) | ((uint32_t)host_puf[3] << 24);
 
-	if(mem_puf == host_puf32)
+	//uint8_t dist = hammingDistance(mem_puf, host_puf32);
+	if(hammingDistance(mem_puf, host_puf32)<5)
 		*resp = 1;
 	else
 		*resp = 0;
-
+	//*resp = dist;
 
 	return SE3_OK;
 }
 
+
+// Function to calculate hamming distance
+int hammingDistance(int n1, int n2)
+{
+    int x = n1 ^ n2;
+    int setBits = 0;
+
+    while (x > 0) {
+        setBits += x & 1;
+        x >>= 1;
+    }
+
+    return setBits;
+}
 
 
 

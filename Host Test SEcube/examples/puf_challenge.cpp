@@ -142,8 +142,11 @@ int main() {
 
 	uint8_t res;
 	uint32_t host_puf = 0;
-	uint32_t address = 0x080E0014;																// input
-	
+	uint32_t address = 0x080E0000;																// input
+	uint32_t matches = 0;
+
+	//for(int i=0; i<1000; i++){
+
 	//using the address to access the file line
 	uint32_t local_addr = (address - MEMBASE);													// DB puf address. In this case we are talking about the line in the txt file
 	if(local_addr%4 !=0 ){
@@ -159,6 +162,12 @@ int main() {
 	l1->L1ChallengePUF(challenge, (uint8_t*)&res);
 
 	printf("res->%X",res);
+
+//	if(res == 1)
+//		matches++;
+//	address+=4;
+//	}
+//	printf("(thr2) matched pufs: %d", matches);
 
 	return 0;
 }
