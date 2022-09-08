@@ -671,23 +671,25 @@ void L1::L1GetPUFS(uint32_t* puf){
 	}
 }
 
-void L1::L1ChallengePUF(uint64_t challenge, uint8_t* res){
+void L1::L1ChallengePUF(uint32_t challenge, uint32_t* res){
 	L1ChallengePufException challengePufExc;
-	uint16_t dataLen = 8;						//size of data to be sent. size of the challenge + expected PUF
+	uint16_t dataLen = 4;						//size of data to be sent. size of the challenge + expected PUF
 	uint16_t respLen = 0;
 
-	this->base.FillSessionBuffer((uint8_t*)&challenge, L1Response::Offset::DATA, 8);
+	this->base.FillSessionBuffer((uint8_t*)&challenge, L1Response::Offset::DATA, 4);
 	try {
 		TXRXData(L1Commands::Codes::CHALLENGEPUF, dataLen, 0, &respLen);
 	}
 	catch(L1Exception& e) {
 		throw challengePufExc;
 	}
-	if(respLen != 1){								//expect 1 8bit value
+	if(respLen != 4){								//expect 1 8bit value
 		printf("[error] no result received\n");
 		//throw challengePufExc;
 	} else {
-		this->base.ReadSessionBuffer((uint8_t*)res, L1Response::Offset::DATA, 1);
+		this->base.ReadSessionBuffer((uint8_t*)res, L1Response::Offset::DATA, 4);
 	}
+
+	printf("(L1) board puf -> 0x%X\n", *res);
 
 }

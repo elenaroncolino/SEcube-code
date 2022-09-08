@@ -38,6 +38,7 @@ using namespace std;
 #define MEMBASE 0x080E0000		// starting memory address from where the pufs have been stored
 
 static uint32_t readPUF(uint32_t challenge_off);
+int hammingDistance(int n1, int n2);
 
 // RENAME THIS TO main()
 int main() {
@@ -140,31 +141,38 @@ int main() {
 
 	/*Code added for the PUF management*/
 
-	uint8_t res;
+	uint32_t board_puf;
 	uint32_t host_puf = 0;
-	uint32_t address = 0x080E0000;																// input
-	uint32_t matches = 0;
+	uint32_t challenge = 0x080E0000;																// input
+	uint32_t match = 0;
 
 	//for(int i=0; i<1000; i++){
 
-	//using the address to access the file line
-	uint32_t local_addr = (address - MEMBASE);													// DB puf address. In this case we are talking about the line in the txt file
+	//using the challenge as address to access the file(DB) entry
+	uint32_t local_addr = (challenge - MEMBASE);													// DB puf address. In this case we are talking about the line in the txt file
 	if(local_addr%4 !=0 ){
-		printf("[host ERROR]: challenge address 0x%X is not word aligned", address);
+		printf("[host ERROR]: challenge address 0x%X is not word aligned", challenge);
 		return 1;
 	}
 	host_puf = readPUF(local_addr/4);															// access the line
 
 	// prepare parameters to be passed to the board
-	uint64_t challenge = (uint64_t)address<<32 | (uint64_t)host_puf;							// in challenge will be stored both the challenge and the expected result
-	printf("challenge, puf -> 0x%X, 0x%X \n", (uint32_t)(challenge>>32), (uint32_t)challenge);	// just for debugging
+	printf("challenge -> 0x%X \n", challenge);	// just for debugging
 
-	l1->L1ChallengePUF(challenge, (uint8_t*)&res);
+	l1->L1ChallengePUF(challenge, &board_puf);
 
-	printf("res->%X",res);
+	if(hammingDistance(host_puf, board_puf)<5){
+		match = 1;
+		printf("DB_puf, board_Puf -> x%X = x%X", host_puf, board_puf);
+	}
+	else{
+		match = 0;
+		printf("DB_puf, board_Puf -> x%X != x%X", host_puf, board_puf);
+	}
+
 
 //	if(res == 1)
-//		matches++;
+//		match++;
 //	address+=4;
 //	}
 //	printf("(thr2) matched pufs: %d", matches);
@@ -186,6 +194,29 @@ int main() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+// Function to calculate hamming distance
+int hammingDistance(int n1, int n2)
+{
+    int x = n1 ^ n2;
+    int setBits = 0;
+
+    while (x > 0) {
+        setBits += x & 1;
+        x >>= 1;
+    }
+
+    return setBits;
+}
 
 
 

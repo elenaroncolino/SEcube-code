@@ -33,7 +33,6 @@ SE3_LOGIN_STATUS login_struct;
 
 static void login_cleanup();
 bool key_len_valid(uint16_t len);
-int hammingDistance(int n1, int n2);
 
 /* simple dispatcher for sekey-related operations */
 uint16_t sekey_utilities(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
@@ -136,52 +135,25 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 
 uint32_t puf_challenge(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
-	uint8_t host_puf[4];
 	uint8_t challenge[4];
 	uint32_t mem_puf;
 	uint32_t challenge32;
 
-    uint32_t host_puf32;
-
-
-   	// Little endian: req=0332000004000E08
-    for(int i=0; i<4; i++){
-    	challenge[i] = req[4+i];
-	    host_puf[i] = req[i];
-    }
+   	// Little endian: req=04000E08
+    for(int i=0; i<4; i++)
+    	challenge[i] = req[i];
 
     //converting into 32bit considering endianness
     challenge32 = (uint32_t)challenge[0] | ((uint32_t)challenge[1] << 8) | ((uint32_t)challenge[2] << 16) | ((uint32_t)challenge[3] << 24);
-	//read from flash
-    mem_puf = *(uint32_t *)challenge32;
-	*resp_size=1;
-
-	//converting into 32bit considering endianness
-	host_puf32 = (uint32_t)host_puf[0] | ((uint32_t)host_puf[1] << 8) | ((uint32_t)host_puf[2] << 16) | ((uint32_t)host_puf[3] << 24);
-
-	//uint8_t dist = hammingDistance(mem_puf, host_puf32);
-	if(hammingDistance(mem_puf, host_puf32)<5)
-		*resp = 1;
-	else
-		*resp = 0;
-	//*resp = dist;
+	//read puf from flash
+	for(uint8_t i=0; i<4; i++)
+	{
+	    *((uint8_t *)resp + i) = *(uint8_t *)challenge32;
+	    challenge32++;
+	    *resp_size+=1;
+	}
 
 	return SE3_OK;
-}
-
-
-// Function to calculate hamming distance
-int hammingDistance(int n1, int n2)
-{
-    int x = n1 ^ n2;
-    int setBits = 0;
-
-    while (x > 0) {
-        setBits += x & 1;
-        x >>= 1;
-    }
-
-    return setBits;
 }
 
 

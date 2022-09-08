@@ -168,7 +168,7 @@ public:
 	 * @param [in] 32 bit challenge that corresponds to an address + the expected PUF. the comparison will be done from the board
 	 * @param [out] 1 if pufs correspond, 0 if they don't.
 	 * @detail  */
-	void L1ChallengePUF(uint64_t challenge, uint8_t* res);
+	void L1ChallengePUF(uint32_t challenge, uint32_t* res);
 
 	// Other API
 	/** @brief Select a specific SEcube out of multiple SEcube devices.
