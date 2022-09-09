@@ -1,28 +1,28 @@
 \chapter{Implementation Overview}
-As already said the aim of the project is to provide a secure PUF to recognize IoT devices, in order to avoid impersonation attacks.
 
-The type of PUF implemented is a SRAM PUF (parlare un attimo dell' SRAM PUF se non e' stato fatto prima), this was implemented using a SECube device.
+\section {Idea behind the project} 
+As already stated, the goal of this project is to provide a secure PUF to check the authenticity of IoT devices in order to avoid impersonation attacks. The proposed solution shows how an SRAM PUF can be implemented. The used SRAM is part of a SECube\textsuperscript{TM} device.
 
-The Idea is that the first time an Host is connected to the SECube, it asks the device all the PUFs that it has collected during its starting phases.
-This challenge and response information has to be stored by the host in a cipher way:
-\begin{equation}\label{eq:eq1}
- data\_to\_store=H(response)
- \end{equation}
- 
-  the challenge has to stay in plaintext.
+The main idea behind this implementation of an SRAM PUF is that whenever the host tries to connect with the SECube\textsuperscript{TM}, a challenge-response mechanism will take place in order to establish that the SECube\textsuperscript{TM} the host wants to connect to, is the original one and that it has not been replaced. 
+The first time the host connects with the SECube\textsuperscript{TM}, it asks the device to send back a list of strings (which will be called \emph{responses}). These strings are the initial values that the SRAM assumes before being overwritten. At power on, each SRAM cell always tends to have the same stable state (a \emph{0} or a \emph{1}), i.e., each cell always assumes the same state every time it is powered on. The values of this cells cannot be predicted or simulated since they depend on the physical implementation of the SRAM (see \ref{section:physicalUnclonableFunctions} for more details). 
+The first time the host receives these responses from the device it wants to connect to, it stores them in a file that will be used as a database to be used for future authentication checks.
 
-In the future when the host has to establish a connection with the device, he is going to send to it a specific challenge, the device is going to answer with a response;
-then the host has to check the validity of the response, evaluating the digest and comparing with the one that he has in the storage file.
-Once a challenge-response is used, it has to be eliminated and not used anymore in the future; in this way it is possible to avoid replicant attacks.
+In later connections with the device, the host sends a challenge to the device it wants to connect to and waits for a response. This challenge is the address location whose content will be checked by the host against the dabase of values it has previously stored during the first connection with the device. When the device receives the challenge, it reads the content of the address and sends a response back to the host. The host then checks if the response it has received matches with the one stored in the database and it can therefore asssess if the device it is trying to connect to is the real one.
+
+%\begin{equation}\label{eq:eq1}
+% data\_to\_store=H(response)
+ %\end{equation}
+
+%In the future when the host has to establish a connection with the device, he is going to send to it a specific challenge, the device is going to answer with a response;
+%then the host has to check the validity of the response, evaluating the digest and comparing with the one that he has in the storage file.
 
 
-The implementation of this project can be divided in two flow:
+\section{Implementation overview}
+The implementation of this project can be divided into two flows:
 \begin{enumerate}
-	\item The first flow consists in the exchange of all the challenge and response information between host and device 
-	\item The second flow consists in the challenge and response authentication of the device
+	\item The first flow consists in the host retrieving all the responses from the device 
+	\item The second flow consists in the challenge-response authentication mechanism between the host and the device 
 \end{enumerate}
-
-Here will be explained only a general idea of the implementation and in the next chapter will be described deeply the functioning.
 
 \begin{figure}[H]
 \centering
