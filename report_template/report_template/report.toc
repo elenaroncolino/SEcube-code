@@ -11,10 +11,10 @@
 \contentsline {section}{\numberline {3.2}Host side}{7}{section.3.2}%
 \contentsline {chapter}{\numberline {4}Implementation Details}{8}{chapter.4}%
 \contentsline {section}{\numberline {4.1}PUF retrieval and DB initialization}{8}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Host side}{9}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.1}Host side}{8}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Board side}{9}{subsection.4.1.2}%
 \contentsline {section}{\numberline {4.2}Application of a challenge and verification of the device}{10}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Host side}{11}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.1}Host side}{10}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Board side}{12}{subsection.4.2.2}%
 \contentsline {chapter}{\numberline {5}Results}{13}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Known Issues}{13}{section.5.1}%

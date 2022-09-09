@@ -159,16 +159,17 @@ public:
 	 * @param [out] algorithmsArray */
 	void L1GetAlgorithms(std::vector<se3Algo>& algorithmsArray) override ;
 
-	/* @brief List the PUFs stored inside the memory of a SEcube device.
+	// PUF related API
+	/* @brief Provide a list the PUFs stored inside the flash memory of a SEcube device.
 	 * @param [out] puflist The list of pufs inside the SEcube.
 	 * @detail  */
 	void L1GetPUFS(uint32_t* puf);
 
-	/* @brief List the PUFs stored inside the memory of a SEcube device.
-	 * @param [in] 32 bit challenge that corresponds to an address + the expected PUF. the comparison will be done from the board
-	 * @param [out] 1 if pufs correspond, 0 if they don't.
+	/* @brief Provide the board puf given a challenge.
+	 * @param [in] 32 bit challenge that corresponds to an address.
+	 * @param [out] 32 pufs corresponding to the data found at address=challenge.
 	 * @detail  */
-	void L1ChallengePUF(uint32_t challenge, uint32_t* res);
+	void L1ChallengePUF(uint32_t challenge, uint32_t* response);
 
 	// Other API
 	/** @brief Select a specific SEcube out of multiple SEcube devices.

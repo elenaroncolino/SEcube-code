@@ -138,8 +138,8 @@ static se3_cmd_func handlers[SE3_N_HARDWARE][SE3_CMD1_MAX] = {{
     /* 10 */ crypto_list,
     /* 11 */ NULL, // forced logout
     /* 12 */ sekey_utilities,
-    /* 13 */ puf_retreive,						// added command to read pufs from SEcube from host
-    /* 14 */ puf_challenge,
+    /* 13 */ puf_retreive,			// added command to retreive pufs from SEcube
+    /* 14 */ puf_challenge,			// added command to perform a PUF challenge
     /* 15 */ error
 	/* Each number identifies a command sent by the host-side. This must be consistent with
 	 * L1_enumeration.h on the host-side. Check out L1Commands::Codes in L1_enumeration.h. */

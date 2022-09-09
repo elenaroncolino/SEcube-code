@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.8.19)  6 SEP 2022 17:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.8.19)  9 SEP 2022 17:20
 entering extended mode
 **./report.tex
 (report.tex
@@ -640,7 +640,7 @@ Chapter 2.
 [3
 
 ]
-<images/SRAM_cell.png, id=245, 817.8555pt x 437.83575pt>
+<images/SRAM_cell.png, id=246, 817.8555pt x 437.83575pt>
 File: images/SRAM_cell.png Graphic file (type png)
 <use images/SRAM_cell.png>
 Package pdftex.def Info: images/SRAM_cell.png  used on input line 39.
@@ -661,7 +661,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `superscript' on input line 45.
 
-<images/SEcubeComponents.png, id=252, 537.207pt x 125.268pt>
+<images/SEcubeComponents.png, id=253, 537.207pt x 125.268pt>
 File: images/SEcubeComponents.png Graphic file (type png)
 <use images/SEcubeComponents.png>
 Package pdftex.def Info: images/SEcubeComponents.png  used on input line 50.
@@ -672,12 +672,12 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 ) (chapters/overview.tex [4] [5 <./images/SRAM_cell.png> <./images/SEcubeCompon
 ents.png>]
 Chapter 3.
-<images/flow_1.png, id=267, 327.3831pt x 523.9575pt>
+<images/flow_1.png, id=268, 327.3831pt x 523.9575pt>
 File: images/flow_1.png Graphic file (type png)
 <use images/flow_1.png>
 Package pdftex.def Info: images/flow_1.png  used on input line 29.
 (pdftex.def)             Requested size: 142.26378pt x 227.68782pt.
-<images/flow_2.png, id=268, 361.5909pt x 523.9575pt>
+<images/flow_2.png, id=269, 361.5909pt x 523.9575pt>
 File: images/flow_2.png Graphic file (type png)
 <use images/flow_2.png>
 Package pdftex.def Info: images/flow_2.png  used on input line 30.
@@ -690,52 +690,60 @@ Chapter 4.
 [8
 
 ]
-<images/L1GetPUFS.png, id=289, 522.753pt x 221.02576pt>
+<images/L1GetPUFS.png, id=294, 671.50874pt x 291.489pt>
 File: images/L1GetPUFS.png Graphic file (type png)
 <use images/L1GetPUFS.png>
-Package pdftex.def Info: images/L1GetPUFS.png  used on input line 41.
-(pdftex.def)             Requested size: 352.8155pt x 149.17244pt.
-<images/code_assembly.png, id=291, 200.54926pt x 241.50224pt>
+Package pdftex.def Info: images/L1GetPUFS.png  used on input line 36.
+(pdftex.def)             Requested size: 352.8155pt x 153.14964pt.
+<images/code_assembly.png, id=296, 178.266pt x 218.0145pt>
 File: images/code_assembly.png Graphic file (type png)
 <use images/code_assembly.png>
-Package pdftex.def Info: images/code_assembly.png  used on input line 59.
-(pdftex.def)             Requested size: 132.30666pt x 159.32562pt.
+Package pdftex.def Info: images/code_assembly.png  used on input line 54.
+(pdftex.def)             Requested size: 132.30666pt x 161.82053pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[9 <./images/L1GetPUFS.png>]
-Overfull \hbox (21.84802pt too wide) in paragraph at lines 70--71
+
+Overfull \hbox (21.84802pt too wide) in paragraph at lines 65--66
 []\OT1/cmr/m/n/10 To make the com-mand call pos-si-ble it is nec-es-sary to de-
 fine these com-mands in the $\OML/cmm/m/it/10 se\OT1/cmr/m/n/10 3[]\OML/cmm/m/i
 t/10 dispatcher[]core:h$
  []
 
-<images/puf_retreive().png, id=297, 581.17125pt x 198.14024pt>
-File: images/puf_retreive().png Graphic file (type png)
-<use images/puf_retreive().png>
-Package pdftex.def Info: images/puf_retreive().png  used on input line 74.
-(pdftex.def)             Requested size: 352.8155pt x 120.28789pt.
-[10 <./images/code_assembly.png> <./images/puf_retreive().png>]
-<images/puf_challenge.png, id=303, 560.69475pt x 260.77425pt>
-File: images/puf_challenge.png Graphic file (type png)
-<use images/puf_challenge.png>
-Package pdftex.def Info: images/puf_challenge.png  used on input line 93.
-(pdftex.def)             Requested size: 352.8155pt x 164.08968pt.
-<images/L1ChallengePUF.png, id=305, 507.0945pt x 258.36525pt>
+<images/puf_retreive.png, id=297, 579.96675pt x 194.52675pt>
+File: images/puf_retreive.png Graphic file (type png)
+<use images/puf_retreive.png>
+Package pdftex.def Info: images/puf_retreive.png  used on input line 69.
+(pdftex.def)             Requested size: 352.8155pt x 118.34354pt.
+[9 <./images/L1GetPUFS.png>]
+Overfull \hbox (22.56636pt too wide) in paragraph at lines 86--87
+[]\OT1/cmr/m/n/10 Then the next stage is to per-form the ac-tual trans-mit/re-c
+eive which is done us-ing in the L1ChallengePUF
+ []
+
+<images/L1ChallengePUF.png, id=305, 673.3155pt x 337.86224pt>
 File: images/L1ChallengePUF.png Graphic file (type png)
 <use images/L1ChallengePUF.png>
-Package pdftex.def Info: images/L1ChallengePUF.png  used on input line 102.
-(pdftex.def)             Requested size: 352.8155pt x 179.7703pt.
- [11 <./images/puf_challenge.png> <./images/L1ChallengePUF.png>]
-<images/puf_challenge_board.png, id=310, 849.1725pt x 402.90524pt>
+Package pdftex.def Info: images/L1ChallengePUF.png  used on input line 90.
+(pdftex.def)             Requested size: 352.8155pt x 177.03491pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[10 <./images/code_assembly.png> <./images/puf_retreive.png>]
+<images/puf_challenge.png, id=313, 579.3645pt x 448.67625pt>
+File: images/puf_challenge.png Graphic file (type png)
+<use images/puf_challenge.png>
+Package pdftex.def Info: images/puf_challenge.png  used on input line 102.
+(pdftex.def)             Requested size: 352.8155pt x 273.23341pt.
+ [11 <./images/L1ChallengePUF.png> <./images/puf_challenge.png>]
+<images/puf_challenge_board.png, id=320, 685.3605pt x 220.4235pt>
 File: images/puf_challenge_board.png Graphic file (type png)
 <use images/puf_challenge_board.png>
-Package pdftex.def Info: images/puf_challenge_board.png  used on input line 119
+Package pdftex.def Info: images/puf_challenge_board.png  used on input line 115
 .
-(pdftex.def)             Requested size: 352.8155pt x 167.39928pt.
-) (chapters/results.tex
-[12 <./images/puf_challenge_board.png>]
+(pdftex.def)             Requested size: 352.8155pt x 113.47058pt.
+) (chapters/results.tex [12 <./images/puf_challenge_board.png>]
 Chapter 5.
 ) (chapters/conclusions.tex [13
 
@@ -768,22 +776,22 @@ Appendix A.
 [16
 
 ]
-<../../images/erase_flash.png, id=341, 1156.32pt x 614.295pt>
+<../../images/erase_flash.png, id=352, 1156.32pt x 614.295pt>
 File: ../../images/erase_flash.png Graphic file (type png)
 <use ../../images/erase_flash.png>
 Package pdftex.def Info: ../../images/erase_flash.png  used on input line 37.
 (pdftex.def)             Requested size: 142.26378pt x 75.57751pt.
-<../../images/chip_flash.png, id=342, 1156.32pt x 613.0905pt>
+<../../images/chip_flash.png, id=353, 1156.32pt x 613.0905pt>
 File: ../../images/chip_flash.png Graphic file (type png)
 <use ../../images/chip_flash.png>
 Package pdftex.def Info: ../../images/chip_flash.png  used on input line 46.
 (pdftex.def)             Requested size: 142.26378pt x 75.42932pt.
-<../../images/puf_db_init.png, id=343, 1156.32pt x 614.295pt>
+<../../images/puf_db_init.png, id=354, 1156.32pt x 614.295pt>
 File: ../../images/puf_db_init.png Graphic file (type png)
 <use ../../images/puf_db_init.png>
 Package pdftex.def Info: ../../images/puf_db_init.png  used on input line 56.
 (pdftex.def)             Requested size: 142.26378pt x 75.57751pt.
-<../../images/puf_challenge.png, id=344, 1156.32pt x 613.69275pt>
+<../../images/puf_challenge.png, id=355, 1156.32pt x 613.69275pt>
 File: ../../images/puf_challenge.png Graphic file (type png)
 <use ../../images/puf_challenge.png>
 Package pdftex.def Info: ../../images/puf_challenge.png  used on input line 65.
@@ -799,9 +807,9 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 1A068E1AFBD3F965ECF7A14F5F42FE13;4368.
  ) 
 Here is how much of TeX's memory you used:
- 15110 strings out of 478868
- 235380 string characters out of 2848809
- 566902 words of memory out of 3000000
+ 15113 strings out of 478868
+ 235384 string characters out of 2848809
+ 566937 words of memory out of 3000000
  32678 multiletter control sequences out of 15000+600000
  411626 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -822,9 +830,9 @@ s17.pfb><C:/Users/zisis/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmti10.pfb><C:/Users/zisis/AppData/Local/Programs/MiKTeX/fonts/type1/publ
 ic/amsfonts/cm/cmti7.pfb><C:/Users/zisis/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/amsfonts/cm/cmtt10.pfb>
-Output written on report.pdf (22 pages, 1279317 bytes).
+Output written on report.pdf (22 pages, 1314355 bytes).
 PDF statistics:
- 433 PDF objects out of 1000 (max. 8388607)
- 84 named destinations out of 1000 (max. 500000)
+ 445 PDF objects out of 1000 (max. 8388607)
+ 87 named destinations out of 1000 (max. 500000)
  316 words of extra memory for PDF output out of 10000 (max. 10000000)
 

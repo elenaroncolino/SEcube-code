@@ -36,8 +36,6 @@
 
 using namespace std;
 
-static int writePUFS(uint32_t* pufs, int puf_num);
-static uint32_t readPUF(uint32_t challenge_off);
 
 // RENAME THIS TO main()
 int hello_world() {
@@ -74,13 +72,13 @@ int hello_world() {
 	}
 
 	int sel = 0;
-//	cout << "\nEnter the number corresponding to the SEcube device you want to use..." << endl;
-//	/* warning: if cin does not wait for input in debug mode with eclipse, open the launch configuration and select
-//	 * the "use external console for inferior" checkbox under the debugger tab (see https://stackoverflow.com/questions/44283534/c-debug-mode-in-eclipse-causes-program-to-not-wait-for-cin)*/
-//	if(!(cin >> sel)){
-//		cout << "Input error...quit." << endl;
-//		return -1;
-//	}
+	cout << "\nEnter the number corresponding to the SEcube device you want to use..." << endl;
+	/* warning: if cin does not wait for input in debug mode with eclipse, open the launch configuration and select
+	 * the "use external console for inferior" checkbox under the debugger tab (see https://stackoverflow.com/questions/44283534/c-debug-mode-in-eclipse-causes-program-to-not-wait-for-cin)*/
+	if(!(cin >> sel)){
+		cout << "Input error...quit." << endl;
+		return -1;
+	}
 
 	if((sel >= 0) && (sel < numdevices)){
 		std::array<uint8_t, L0Communication::Size::SERIAL> sn = {0};
@@ -127,8 +125,8 @@ int hello_world() {
 		}
 		cout << "You are now logged out." << endl;
 		cout << "\nBasic SEcube test completed successfully." << endl;
-		//cout << "\nBasic SEcube test completed successfully.\nPress q to quit." << endl;
-		//while(cin.get() != 'q'){};
+		cout << "\nBasic SEcube test completed successfully.\nPress q to quit." << endl;
+		while(cin.get() != 'q'){};
 	} else {
 		cout << "You entered an invalid number. Quit." << endl;
 		return 0;
@@ -136,133 +134,5 @@ int hello_world() {
 
 
 
-
-
-	/*Code added for the PUF management*/
-
-
-
-
-	/* PUF READING */
-//	int puf_num = 10;
-
-//	printf("\n\n\n\n Print reset \n---------\n");
-//	uint32_t PUF_list[puf_num];
-//	for(int i=0; i<puf_num; i++){
-//		PUF_list[i] = 0;
-//		printf("%d->%d \n",i,PUF_list[i]);
-//	}
-//
-
-
-//	l1->L1GetPUFS((uint32_t*)PUF_list);  // request all PUFS one by one. Maybe it could be used also for the challenge
-//
-//	printf("\n\n\n\n Print PUFs \n---------\n");
-//	for(int i=0; i<puf_num; i++)
-//		printf("%d->%X \n",i,PUF_list[i]);
-//	writePUFS(PUF_list, puf_num);
-
-
-
-
-
-
-
-	/*CHALLENGE*/
-	uint8_t res=0;
-	uint32_t host_puf = 0;
-	uint32_t mem_base = 0x080E0000;					// define
-	uint32_t address = 0x080E0004;					// input
-	uint32_t local_addr = (address - mem_base);		// DB puf address. In this case we are talking about the line in the txt file
-	if(local_addr%4 !=0 ){
-		printf("[host ERROR]: challenge address 0x%X is not word aligned", address);
-		return 1;
-	}
-	host_puf = readPUF(local_addr/4);
-	printf("challenge, puf-> 0x%X, 0x%X \n", address, host_puf);
-
-	uint64_t challenge = address;
-	challenge = challenge<<32;
-	challenge += host_puf;
-	//l1->L1ChallengePUF(challenge, &res);
-	printf("res->%X",res);
-
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-static int writePUFS(uint32_t* pufs, int puf_num){
-
-	char str_puf[32];
-
-	FILE *fp = fopen("PUFS.txt", "w");
-	if(fp == NULL){
-		printf("Can't open PUF file, PUFS were not stored\n");
-		return 1;
-	}
-	else{
-		itoa((int)pufs[0],str_puf,10);
-		strcat(str_puf, "\n");
-		fprintf(fp,str_puf);			//write to file
-
-		fclose(fp);
-		FILE *fp = fopen("PUFS.txt", "a");
-
-		for(int i=1; i<puf_num; i++){
-			itoa((int)pufs[i],str_puf,10);
-			strcat(str_puf, "\n");
-			fprintf(fp,str_puf);		//write to file
-		}
-	}
-
-
-	fclose(fp);
-
-
-	return 0;
-}
-
-
-
-
-static uint32_t readPUF(uint32_t challenge_off){
-
-	uint32_t puf;
-	uint32_t line = 0;
-
-	FILE *fp = fopen("PUFS.txt", "r");
-	if(fp == NULL){
-		printf("Can't open PUF file, PUFS were not stored\n");
-		return 1;
-	}
-	else{
-		while(fscanf(fp, "%d", &puf)){
-			if(line == challenge_off)
-				break;
-			line++;
-		}
-	}
-
-	fclose(fp);
-
-	return puf;
-}
-

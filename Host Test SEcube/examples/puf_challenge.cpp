@@ -49,7 +49,7 @@ int main() {
 
 	array<uint8_t, L1Parameters::Size::PIN> pin_admin = {'t','e','s','t'}; // PIN to login as administrator on the SEcube (assuming the device was initialized with this PIN)
 
-	cout << "Welcome to SEcube Hello World!" << endl;
+	cout << "Welcome to SEcube PUF challenge example!" << endl;
 	this_thread::sleep_for(chrono::milliseconds(1000)); // these delays are simply here to slow down the process making it more comprehensible
 	cout << "Looking for SEcube devices...\n" << endl;
 	this_thread::sleep_for(chrono::milliseconds(2000));
@@ -75,13 +75,13 @@ int main() {
 	}
 
 	int sel = 0;
-//	cout << "\nEnter the number corresponding to the SEcube device you want to use..." << endl;
-//	/* warning: if cin does not wait for input in debug mode with eclipse, open the launch configuration and select
-//	 * the "use external console for inferior" checkbox under the debugger tab (see https://stackoverflow.com/questions/44283534/c-debug-mode-in-eclipse-causes-program-to-not-wait-for-cin)*/
-//	if(!(cin >> sel)){
-//		cout << "Input error...quit." << endl;
-//		return -1;
-//	}
+	cout << "\nEnter the number corresponding to the SEcube device you want to use..." << endl;
+	/* warning: if cin does not wait for input in debug mode with eclipse, open the launch configuration and select
+	 * the "use external console for inferior" checkbox under the debugger tab (see https://stackoverflow.com/questions/44283534/c-debug-mode-in-eclipse-causes-program-to-not-wait-for-cin)*/
+	if(!(cin >> sel)){
+		cout << "Input error...quit." << endl;
+		return -1;
+	}
 
 	if((sel >= 0) && (sel < numdevices)){
 		std::array<uint8_t, L0Communication::Size::SERIAL> sn = {0};
@@ -138,44 +138,43 @@ int main() {
 
 
 
-
 	/*Code added for the PUF management*/
+
+	printf("\n\n==========\n");
+	printf("Apply PUF challenge ...\n\n");
 
 	uint32_t board_puf;
 	uint32_t host_puf = 0;
-	uint32_t challenge = 0x080E0000;																// input
-	uint32_t match = 0;
+	// the challenge which can be provided in other ways. In this case it is hardcoded
+	uint32_t challenge = 0x080E0004;
+	uint32_t DB_addr;
 
-	//for(int i=0; i<1000; i++){
-
-	//using the challenge as address to access the file(DB) entry
-	uint32_t local_addr = (challenge - MEMBASE);													// DB puf address. In this case we are talking about the line in the txt file
-	if(local_addr%4 !=0 ){
-		printf("[host ERROR]: challenge address 0x%X is not word aligned", challenge);
+	// using the challenge as an address to access the DB(file) entry
+	DB_addr = (challenge - MEMBASE);
+	if(DB_addr%4 !=0 ){
+		printf("[Host ERROR]: challenge address 0x%X is not word aligned", challenge);
 		return 1;
 	}
-	host_puf = readPUF(local_addr/4);															// access the line
+	host_puf = readPUF(DB_addr/4);
 
-	// prepare parameters to be passed to the board
-	printf("challenge -> 0x%X \n", challenge);	// just for debugging
+	// print of the parameters to be passed to the board, just for debugging
+	printf("[Host] Challenge applied: 0x%X \n", challenge);
 
+	// calling function of L1 API responsible for the communication between the host and the board
 	l1->L1ChallengePUF(challenge, &board_puf);
 
-	if(hammingDistance(host_puf, board_puf)<5){
-		match = 1;
-		printf("DB_puf, board_Puf -> x%X = x%X", host_puf, board_puf);
-	}
-	else{
-		match = 0;
-		printf("DB_puf, board_Puf -> x%X != x%X", host_puf, board_puf);
-	}
+	// print of the puf received from the DB and the one received from the board
+	printf("[Host] Board response received successfully\n");
+	printf("[Host] DB_puf:		x%X\n", host_puf);
+	printf("[Host] Board_Puf:	x%X\n", board_puf);
 
-
-//	if(res == 1)
-//		match++;
-//	address+=4;
-//	}
-//	printf("(thr2) matched pufs: %d", matches);
+	printf("\n----------\n");
+	// check on the pufs using hamming distance of 4
+	if(hammingDistance(host_puf, board_puf)<5)
+		printf("[Host] pufs DO match!!!\n");
+	else
+		printf("\n[Host] pufs DON'T match!!!\n");
+	printf("----------\n");
 
 	return 0;
 }

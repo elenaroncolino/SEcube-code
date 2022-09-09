@@ -103,17 +103,15 @@ store_puf:
        	eor r2,r2,r2
 
 loop1: 	ldr r2,[r5]
-    		add r5, #4
-    		mov r0, #2
+    	add r5, #4
+    	mov r0, #2
 		add r1, r7, #0
-    		//push {r0,r1,r2,r3,r4}
-    		BL HAL_FLASH_Program		
-    		//pop  {r0,r1,r2,r3,r4}
-    		add r7,#4
-    		cmp r5,r6
-    		bls loop1
-    		pop {lr}
-    		bx lr
+    	BL HAL_FLASH_Program
+    	add r7,#4
+    	cmp r5,r6
+    	bls loop1
+    	pop {lr}
+    	bx lr
 
 
 CopyDataInit:
