@@ -654,42 +654,54 @@ void L1::L1FindKey(uint32_t keyId, bool& found) {
 /*added functions for puf purpose*/
 void L1::L1GetPUFS(uint32_t* puf){
 	L1GetPufException getPufExc;
-	uint16_t dataLen = 0;																//size of data to be sent. we do not send any data
+	// size of data to be sent. we do not send any data.
+	uint16_t dataLen = 0;
 	uint16_t respLen = 0;
 	try {
+		// actual transmission of the data buffer and of the command ID to
+		// identify the function to be executed on board side
 		TXRXData(L1Commands::Codes::GETPUFS, dataLen, 0, &respLen);
 	}
 	catch(L1Exception& e) {
 		throw getPufExc;
 	}
 
-	if(respLen != 4*1000){																//expect 1000 pufs 4 bytes each
-		printf("[error] not all pufs were received\n");
-		//throw findPufExc;
+	// check on the size of the data received
+	// expected a 1000 32 bit values (4*1000 bytes)
+	if(respLen != 4*1000){
+		printf("[L1 error] not all pufs have been received\n");
 	} else {
-		this->base.ReadSessionBuffer((uint8_t*)puf, L1Response::Offset::DATA, 4*1000);  // ?? offset
+		// Read the received buffer.
+		// Store the response in the "response" variable indicating how many bytes we expect (1 word = 4 bytes)
+		this->base.ReadSessionBuffer((uint8_t*)puf, L1Response::Offset::DATA, 4*1000);
 	}
 }
 
-void L1::L1ChallengePUF(uint32_t challenge, uint32_t* res){
+void L1::L1ChallengePUF(uint32_t challenge, uint32_t* response){
 	L1ChallengePufException challengePufExc;
-	uint16_t dataLen = 4;						//size of data to be sent. size of the challenge + expected PUF
+	// size of data to be sent. size of the challenge + expected PUF
+	uint16_t dataLen = 4;
 	uint16_t respLen = 0;
 
-	this->base.FillSessionBuffer((uint8_t*)&challenge, L1Response::Offset::DATA, 4);
+	// filling the buffer with the data to be sent specifying also the offset and the data length
+	this->base.FillSessionBuffer((uint8_t*)&challenge, L1Response::Offset::DATA, dataLen);
 	try {
+		// actual transmission of the data buffer and of the command ID to
+		// identify the function to be executed on board side
 		TXRXData(L1Commands::Codes::CHALLENGEPUF, dataLen, 0, &respLen);
 	}
 	catch(L1Exception& e) {
 		throw challengePufExc;
 	}
-	if(respLen != 4){								//expect 1 8bit value
-		printf("[error] no result received\n");
-		//throw challengePufExc;
-	} else {
-		this->base.ReadSessionBuffer((uint8_t*)res, L1Response::Offset::DATA, 4);
-	}
 
-	printf("(L1) board puf -> 0x%X\n", *res);
+	// check on the size of the data received
+	// expected a 32 bit value (4 bytes)
+	if(respLen != dataLen){
+		printf("[error] no result received\n");
+	} else {
+		// Read the received buffer
+		// Store the response in the "response" variable indicating how many bytes we expect (1 word = 4 bytes)
+		this->base.ReadSessionBuffer((uint8_t*)response, L1Response::Offset::DATA, dataLen);
+	}
 
 }

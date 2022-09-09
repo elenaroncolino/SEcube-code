@@ -91,41 +91,13 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 {
 	uint32_t puf_num = 1000;
 	uint32_t flashAddress = 0x080E0000;
-//
-//	*resp_size = 0;	// every time we successfully read a byte from flash it must be incremented up to 4 or 1 if we consider the complete PUF
-//	resp[0] = 1;
-//	*resp_size+=1;
-//	resp[1] = 2;
-//	*resp_size+=1;
-//	resp[2] = 3;
-//	*resp_size+=1;
-//	resp[3] = 4;
-//	*resp_size+=1;
 
-
-//	write to memory					for debugging purposes
-//	HAL_FLASH_Unlock();
-//	for(uint64_t i=0; i<4*puf_num; i++)
-//	{
-//	    HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, flashAddress, i);
-//	    flashAddress++;
-//	}
-//	HAL_FLASH_Lock();
-
-
-	// encryption
-//	for(uint32_t i=0; i<puf_num; i++)
-//	{
-//		*(uint32_t *)flashAddress = 0xF;
-//		flashAddress+=4;
-//	}
-
-	//read
-	flashAddress = 0x080E0000;
+	// Store flash content into the variable that will be returned to the Host
 	for(uint32_t i=0; i<4*puf_num; i++)
 	{
 	    *((uint8_t *)resp + i) = *(uint8_t *)flashAddress;
 	    flashAddress++;
+	    // Indication of how many BYTES have been transfered. It will be passed to the host
 	    *resp_size+=1;
 	}
 
@@ -135,21 +107,17 @@ uint32_t puf_retreive(uint16_t req_size, const uint8_t* req, uint16_t* resp_size
 
 uint32_t puf_challenge(uint16_t req_size, const uint8_t* req, uint16_t* resp_size, uint8_t* resp)
 {
-	uint8_t challenge[4];
-	uint32_t mem_puf;
-	uint32_t challenge32;
+	// variable used to store the reconstructed data coming from the host
+	uint32_t challenge;
 
    	// Little endian: req=04000E08
-    for(int i=0; i<4; i++)
-    	challenge[i] = req[i];
-
-    //converting into 32bit considering endianness
-    challenge32 = (uint32_t)challenge[0] | ((uint32_t)challenge[1] << 8) | ((uint32_t)challenge[2] << 16) | ((uint32_t)challenge[3] << 24);
-	//read puf from flash
+    // Reconstruction of received data considering endianness
+    challenge = (uint32_t)req[0] | ((uint32_t)req[1] << 8) | ((uint32_t)req[2] << 16) | ((uint32_t)req[3] << 24);
+	// Read puf from flash
 	for(uint8_t i=0; i<4; i++)
 	{
-	    *((uint8_t *)resp + i) = *(uint8_t *)challenge32;
-	    challenge32++;
+	    *((uint8_t *)resp + i) = *(uint8_t *)challenge;
+	    challenge++;
 	    *resp_size+=1;
 	}
 
