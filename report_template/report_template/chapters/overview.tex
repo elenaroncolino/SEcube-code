@@ -20,36 +20,34 @@ In later connections with the device, the host sends a challenge to the device i
 \section{Implementation overview}
 The implementation of this project can be divided into two flows:
 \begin{enumerate}
-	\item The first flow consists in the host retrieving all the responses from the device 
-	\item The second flow consists in the challenge-response authentication mechanism between the host and the device 
+	\item The first flow consists in the host retrieving all the responses from the device;
+
+
+	\item The second flow consists in the challenge-response authentication mechanism between the host and the device.
 \end{enumerate}
+
+
+\subsection {Flow 1} \label{subsection:flow1}
+At power on, the first thing the device does is read the values present in the SRAM and store them in a secure place where they can be read later: This procedure has to be carried out every time the device is powered on, since the retrieval of SRAM values is the basis upon which the whole PUF mechanism is based.
+When the host tries for the first time to connect to the device, it requests the device to send back the list of values it has read from the SRAM. The host will then store these values to implement the  challenge-response authentication mechanism the next time it wants to connect to that device. (see Fig. \ref{fig:Flow1})
+
+
+\subsection {Flow 2} \label{subsection:flow2}
+Similarly to \emph{Flow 1}, at power on the device stores the SRAM values in a secure place. When the host wants to connect to the device (and \emph{Flow 1} has already taken place once), it sends the device a challenge, i.e., the index of a response it wants to retrieve. When the host receives the response, it checks that it maches the value at the index indicated in the challenge and that was previously stored. If the two values match, the host can establish the connection with the device, otherwise the connection is interrupted. (see Fig. \ref{fig:Flow2});
 
 \begin{figure}[H]
 \centering
-  \includegraphics[width=5cm]{images/flow_1.png}
-  \includegraphics[width=5cm]{images/flow_2.png}
-  \caption{Flow 1 and Flow 2}
-  \label{fig:sub2}
+  \includegraphics{images/Flow1.jpg}
+  \caption{Flow 1}
+  \label{fig:Flow1}
 \end{figure}
 
-\section {Device side} 
-On the device side both of the flows have a common important operation that has to be done. This operation consists in taking the values present in the SRAM when this one is switched on and storing them in a secure place. Obviously this operation is the first operation that has always been done by the device as soon as it is switched on.
-
-Secondly, if this is the first time that it communicates with this particular host it waits until the host asks it for all the value that it has just taken from the SRAM in order to implement the challenge-response authentication for the next time.
-
-On the other hand, it waits until the host sends to it a particular challenge, this challenge will be the index of a determined response, so the device takes the response and sends them to the host.
-After that the device is authenticated and the can starts to communicate.
-
-
-
-\section {Host side} 
-On the host side the type of work is a little bit different from the device side.
-When the connection is instantiated with the device for the first time it asks the device all the values needed to implement the challenge-response authentication; the Host is going to store the hash values of these datas in a file.
-
-During all the next connections with the device, the Host sends a particular challenge to the device and waits for the respective response.
-After it receives it, It is going to evaluate the digest of this value, it gives it in input to the hash function and it compares it with the value that it has inside the file.
-
-If the two digests are the same it means that the device is the correct one and so the connection can start; otherwise the host stops the connection.
+\begin{figure}[H]
+\centering
+  \includegraphics{images/Flow2.jpg}
+  \caption{Flow 2}
+  \label{fig:Flow2}
+\end{figure}
 
 
 
