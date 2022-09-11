@@ -1,24 +1,21 @@
 \chapter{Implementation Details}
-In this chapter a more in depth explanation of the implementation of the project will be provided. The operations of generating the PUFs and applying a challenge are done in part on the host side and in part on the board side.
+In this chapter a more in depth explanation of the implementation of the project will be provided. The operations for retrieving the responses (which will be also refered to as \emph{PUFs} from here on) and implementing the challenge-response mechanism are done partly on the host side and partly on the board (synonymous of \emph{device}) side.
 
-The Host is responsible of communicating to the board what operation must be done, by sending command IDs, and getting back the results. Also the Host is the one that will have access to the PUF database.
-The Board is responsible of providing access to the SRAM, where the PUFs will be stored. It is responsible for both writing and reading the PUFs.
-
-The host will ask from the board to perform two main operations:
+The board is responsible for the following operations:
 \begin{enumerate}
-	\item Get the PUFs and store them in the DB of PUFs.
-	\item Once a challenge is provided, access the DB and get the PUF. Then pass the challenge to the board which will provide the response to that challenge. Then the Host will compare that response to the PUF stored in the DB.
+	\item Read the PUFs from the RAM and store them in the SRAM;
+	\item Return the list of all PUFs to the host;
+	\item Return a specific PUF corresponding to the challenge sent by the host.
 \end{enumerate}
 
-The operations that the board must be able to perform are three:
+On the contrary, the host is in charge of the following:
 \begin{enumerate}
-	\item Read the PUFs from the RAM and store them in the SRAM.
-	\item Provide the list of PUFs to the Host.
-	\item Once the challenge is provided read the PUF from the SRAM and send it to the Host.
+	\item Asking the board to retrieve the list of all PUFs and storing them in a file that will be used as database for future reference;
+	\item Challenge the board to retrieve the PUF and a specific address and then compare it with the corresponding one stored in the database.
 \end{enumerate}
+
 
 \section {PUF retrieval and DB initialization}
-
 At the beginning it is necessary to access the RAM as soon as possible to avoid compromising the content and copy the values found into the SRAM so that they can be read later on. To perform this operation there are some things to be done on both host and board side.
 
 \subsection{Host side}
