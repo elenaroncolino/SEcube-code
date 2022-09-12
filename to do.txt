@@ -1,18 +1,10 @@
-se-cube:
-	-general test
-	-hash function
-
-
 report:
 	-abstract
-	-implementation details
 	-results (first part)
 	-conclusion
 	-api 
 
 
 power point:
-	- number of slides?
-	- tinghs to write?
-	- example on the machine?
+	-to do
 
