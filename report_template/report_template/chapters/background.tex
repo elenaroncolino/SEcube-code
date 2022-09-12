@@ -3,14 +3,14 @@
 
 \section{State of the art of embedded systems security approach}
 
-The current best practice for providing a secure memory or authentication source in mobile systems is to place a secret key in nonvolatile electrically erasable programmable read-only memory (EEPROM) or battery-backed static random-access memory (SRAM) and use hardware cryptographic operations such as digital signature or encryption. Nonetheless, this approach is expensive both in terms of design and of power consumption. In addition, invasive attack mechanisms make such nonvolatile memory vulnerable. Protection agains such attacks is therefore needed and it requires the use of active tamper detection/prevention circuitry which must be continually powered \cite{PUF_IEEE_Herder}.
+The current best practice for providing a secure memory or authentication source in mobile systems is to place a secret key in nonvolatile electrically erasable programmable read-only memory (EEPROM) or battery-backed static random-access memory (SRAM) and use hardware cryptographic operations such as digital signature or encryption. Nonetheless, this approach is expensive both in terms of design and of power consumption. In addition, invasive attack mechanisms make such nonvolatile memory vulnerable. Protection against such attacks is therefore needed and it requires the use of active tamper detection/prevention circuitry which must be continually powered \cite{PUF_IEEE_Herder}.
 
 \section{Physical unclonable functions}\label{section:physicalUnclonableFunctions}
 
-Physical unclonable functions (PUFs) are innovative primitives that derive secrets from complex physical characterstics of the ICs rather that storing the secret in digital memory. Because the PUF taps into the random variation during an IC fabrication process, the secret is extremely difficult to predict or extract. PUFs generate volatile secrets that only exist in a digital form when a chip is powered on and running. This requires the adversary to mount the attack while the IC is running and using the secret, which is significantly harder that discovering non-volatile keys. An invasine attack must measure the PUF delays without altering them or triggering sensing wires that clear out the registers \cite{PUF_Suh_Devadas}.
+Physical unclonable functions (PUFs) are innovative primitives that derive secrets from complex physical characterstics of the ICs rather that storing the secret in digital memory. Because the PUF taps into the random variation during an IC fabrication process, the secret is extremely difficult to predict or extract. PUFs generate volatile secrets that only exist in a digital form when a chip is powered on and running. This requires the adversary to mount the attack while the IC is running and using the secret, which is significantly harder that discovering non-volatile keys. An invasive attack must measure the PUF delays without altering them or triggering sensing wires that clear out the registers \cite{PUF_Suh_Devadas}.
 
 The concept of PUFs is based on the idea that even though the mask and manufacturing process is the same during the creation of the same type of IC, each IC is actually slightly different due to normal manufacturing variability. PUFs leverage this variability to derive the silicon "biometric", a "secret" information that is unique to the chip. This implies that no two identical chips can be manufactured.  
-Although the use of PUFs is a relatively new technology, it should be noted that the concepts of unclonability and uniqueness of ojects have been extensively used in the past \cite{PUF_IEEE_Herder}.
+Although the use of PUFs is a relatively new technology, it should be noted that the concepts of unclonability and uniqueness of objects have been extensively used in the past \cite{PUF_IEEE_Herder}.
 
 \subsection{Types of PUFs}
 Most of the currently used PUFs fall into two categories: 
@@ -23,7 +23,7 @@ A PUF can be modeled as a black-box challenge-response system: an input challeng
 
 The fundamental difference between weak and strong PUFs is the domain of \emph{f(·)}, i.e., the number of unique challenges \emph{c} that the PUF can process. Weak PUFs can only support a small number of challenges (in some cases just a single challenge). On the contrary, a strong PUF can support a large enough number of challenges such that trying to determine/measure all challenge/response pairs (CRPs) within a limited timeframe is unfeasible.
 
-Both weak and strong PUFs rely on analog physical properties of the fabricated circuit to derive secret information and therefore have noise and variability associated with them. For this reason, modern PUFs designs employ multiple error-correction techniques to mitigate the noise and improve realiability.
+Both weak and strong PUFs rely on analog physical properties of the fabricated circuit to derive secret information and therefore have noise and variability associated with them. For this reason, modern PUFs designs employ multiple error-correction techniques to mitigate the noise and improve reliability.
 
 Examples of strong PUFs include optical and arbiter PUFs, while ring-oscillator and SRAM PUFs are example of weak ones. \cite{PUF_IEEE_Herder}
 

@@ -20,19 +20,19 @@ find the best compromise
 One of many issues of this implementation is that it is not secure from the Man-in-the-Middle attack, where a man can steal the challenge and response of the PUF.
 There are some optimizations that can be done in order to avoid this kind of attack.
 
-
 The main one is to eliminate a challenge-response once it is used; in this way it cannot be used in the future. This kind of implementation avoids replicant attacks.
 
-
 Another type of security that can be used is encryption of the data, in order to ensure confidentiality in the communication. The encryption should be used, in particular, during the first communication between device and host, that means when the device sends all the challenge-response to the host.
-It is important to say that the type of encryption and the necessity to encrypt or not depend on the type of device and by the level of sensibility of the datas that it can manage.
+It is important to say that the type of encryption and the necessity to encrypt or not depend on the type of device and by the level of sensibility of the data that it can manage.
+
+One more option is to perform the response match check on the board side. This way we eliminate the possibility of any manipulation of the response provided by the board before making the match check.
 
 
 \section{Future Work}
 Many are the implementations that can be done on this project, starting from the ones explained in the previous paragraph.
 
 
-The main one could be to store the challenge-response in the file (host side) in the chipher way. In this way, if the file is stolen by an attacker he cannot be able to use the information.
+The main one could be to store the challenge-response in the file (host side) in the cipher way. In this way, if the file is stolen by an attacker he cannot be able to use the information.
 
 Another one is to evaluate and store in a secure place the hash value of the file containing the challenge-response.
 This kind of implementation can be used in order to ensure the integrity of the challenge-response of a particular device.
