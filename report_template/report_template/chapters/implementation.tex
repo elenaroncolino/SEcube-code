@@ -36,11 +36,11 @@ The actual communication with the board is done through the use of functions imp
 \begin{figure}[h!]
 	\vspace{0.5cm}
 	\includegraphics[width = 0.8\textwidth]{images/L1GetPUFS.png}
-	\caption{Function responsible for the communicating with the board and receiving the list of PUFs. }
+	\caption{Function responsible for communicating with the board and receiving the list of PUFs. }
 	\label{fig:L1GetPUFS}
 \end{figure}
 
-In that piece of code we can see that we are expecting 1000 PUFs. The communication between host and board is done through the use of buffers that will then be transmitted using an appropriate transmit/receive function. I that buffer we must set the data to be sent and the size of the data we are transmitting/receiving. Then this buffer is sent with the command ID for the operation that must be performed on the board side. The response then will be given again through a buffer from which we can indicate where to store the result and the amount of bytes we expect. After that the host is responsible of managing that data, in our case to the write them in a DB.
+In that piece of code we can see that we are expecting 1000 PUFs. The communication between host and board is done through the use of buffers that will then be transmitted using an appropriate transmit/receive function. In that buffer we must set the data to be sent and the size of the data we are transmitting/receiving. Then this buffer is sent with the command ID for the operation that must be performed on the board side. The response then will be given again through a buffer from which we can indicate where to store the result and the amount of bytes we expect. After that the host is responsible of managing that data, in our case to the write them in a DB.
 
 \subsection{Board side}
 

@@ -1,3 +1,20 @@
 \chapter{API}
 \label{api}
-If you developed some source code that is supposed to be used by other software in order to perform some action, it is very likely that you have implemented an API. Use this appendix to describe each function of the API (prototype, parameters, returned values, purpose of the function, etc).
+%If you developed some source code that is supposed to be used by other software in order to perform some action, it is very likely that you have implemented an API. Use this appendix to describe each function of the API (prototype, parameters, returned values, purpose of the function, etc).
+
+In the following lines it is explained some API functions which might be used by other software that want to implement a PUF authentication:
+\begin{itemize}
+	\item void L1::L1GetPUFS(uint32\_t* puf);
+		\\
+		1 parameter: pointer to an empty buffer that will be fed with the values of the PUF
+		\\
+		purpose: Function responsible for communicating with the board and receiving the list of PUFs
+		
+	\item void L1::L1ChallengePUF(uint32\_t challenge, uint32\_t* response)
+		\\
+		1 parameter: challenge to send to the board
+		\\
+		2 parameter: pointer to a buffer where the response will be stored	
+		\\
+		purpose: function dor trasmitting challenge and response PUF
+\end{itemize}
