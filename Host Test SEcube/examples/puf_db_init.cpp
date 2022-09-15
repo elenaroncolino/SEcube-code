@@ -43,7 +43,8 @@ using namespace std;
 static int writePUFS(uint32_t* pufs, int puf_num);
 
 // RENAME THIS TO main()
-int puf_db_init() {
+//int puf_db_init() {
+int main() {
 	/* we recommend using smart pointers to manage L0 and L1 objects in order
 	   to ensure proper memory management by their constructors and destructors. */
 	unique_ptr<L0> l0 = make_unique<L0>();
