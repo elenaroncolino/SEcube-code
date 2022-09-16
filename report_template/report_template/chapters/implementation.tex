@@ -1,32 +1,32 @@
 \chapter{Implementation Details}
-In this chapter it is provided a more in depth explanation of how the different functionalities have been implemented in this project. The main operations that have been added to the L1 API for managing the PUFs are:
+This chapter provides a more in-depth explanation of how the different functionalities have been implemented. The main operations that have been added to the L1 API for managing the PUFs are the following:
 \begin{itemize}
-	\item Fill the DB with a number of responses
- 	\item Perform a challenge and determine the authenticity of the device  
+	\item Fill the host DB with a number of responses received from the device
+ 	\item Challenge the device and determine the authenticity of such device  
 \end{itemize}
 
-To perform these actions correctly a communication between the Host and the Board is necessary. 
+To perform these actions correctly, it is necessary to establish a communication between the host and the device (also referred to as \emph{board}). 
 
-The board is responsible for:
+The board is responsible for
 \begin{enumerate}
 	\item Reading the PUF responses from the RAM and store them in the flash;
 	\item Providing the list of all PUF responses to the host;
 	\item Returning a specific response corresponding to the challenge sent by the host.
 \end{enumerate}
 
-On the other hand, the host is in charge of:
+On the other hand, the host is in charge of
 \begin{enumerate}
 	\item Retrieving the list of PUF responses and storing them in a database;
-	\item Sending a challenge to the board, retrieve the response to that challenge and then compare it with the one stored in the database.
+	\item Sending a challenge to the board, retrieving the corresponding response and then comparing it with the one stored in the database.
 \end{enumerate}
 
 
 \section {PUF retrieval and DB initialization}
-At the beginning it is necessary to access the RAM as soon as possible to avoid compromising the content and copy the values found into the flash memory so that they can be read later on. To perform this operation there are some tasks to be done on the host and some on the board side.
+When the board is powered on, it is necessary to access the SRAM as soon as possible to avoid compromising its content and to copy the values found into the flash memory so that they can be read later on. To perform this operation, tasks on both the host and board side have to be carried out.
 
 \subsection{Host side}
 
-To get the correct data from the RAM that represent the PUFs it is necessary to access the memory immediately after the board's startup and before writing any data to the RAM. Also an erase of the memory must be done, so before copying the PUFs into the flash memory a board initialization is performed.
+To retrieve the correct data from the RAM (whose values are the PUFs needed to implement the whole authentication mechanism), it is necessary to access the memory immediately after the board's startup and before writing any data in the RAM. Also an erase of the memory must be done, so before copying the PUFs into the flash memory a board initialization is performed.
 
 Once this is done the Host works in three stages. One to prepare the parameters to be send to the board, one to get the response from the board and one to access the DB to store them. All those stages are implemented in the $examples > puf\_db\_init.cpp$ file.
 
@@ -79,7 +79,7 @@ In the $puf\_retreive()$ function we simply read from the flash the PUFS that we
 \section {Application of a challenge and verification of the device} 
 \label{section:impl_host}
 
-Once we have the DB filled with the PUFs we can use it to check the authenticity of the board by comparing the PUFs in the DB to the ones provided by the board. Again to realize the functionality we will have to perform some tasks on the host and some on the board side.
+Once we have the DB filled with PUFs, it can be used to check the authenticity of the board by comparing the PUFs in the DB to the ones provided by the board. Again, to implement this functionality, some tasks on both host and board side must be performed.
 
 \subsection{Host side}
 
