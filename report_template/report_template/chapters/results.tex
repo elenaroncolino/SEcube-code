@@ -29,16 +29,13 @@ One more improvement could be to perform the responses match check on the board 
 
 
 \section{Future Work}
-Many are the implementations that can be done on this project, starting from the ones explained in the previous paragraph.
-\\
-\\
-The main one could be to store the challenge-response in the file (host side) in the cipher way. In this way, if the file is stolen by an attacker he cannot be able to use the information.
-\\
-\\
-Another one is to evaluate and store in a secure place the hash value of the file containing the challenge-response.
-This kind of implementation can be used in order to ensure the integrity of the challenge-response of a particular device.
-The idea consists in evaluating the hash value of the file before taking information from it and comparing it with the digest that we store in another place.
-If the value is the same it means that the file is not corrupted.
+There are some implementations that could be done to improve this project, starting from the ones explained in the previous paragraph.
+
+The main one could be to store the challenge-response pairs in the host side encrypting them. In this way, even if the file were stolen by an attacker, he could not be able to use those pairs.
+
+Another improvement could be evaluating and storing in a secure place the hash value of the file containing the challenge-response pairs.
+This kind of implementation can be used to ensure the integrity of the challenge-responses of a particular device.
+The idea consists in evaluating the hash value of the file before taking information from it and comparing it with the digest that had been previously stored in another place. If the values are the same, then the file is not corrupted.
 %Adding a section about how to improve the project is not mandatory but it is useful to show that you actually understood the topics of the project and have ideas for improvements.
 
 
