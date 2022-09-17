@@ -2,11 +2,11 @@
 %In this chapter we expect you to list and explain all the results that you have achieved. Pictures can be useful to explain the results. Think about this chapter as something similar to the demo of the oral presentation. You can also include pictures about use-cases (you can also decide to add use cases to the high level overview chapter).
 
 The aim of the project has been successfully reached and the implemented PUF can check with a good accuracy that the device is the correct one.
-Unfortunately, achieving 100\% accuracy in recognising the device is unfeasible. This is due to the fact that sometimes a few bits can change their standard value when the device is switched on.
+Unfortunately, achieving 100\% accuracy in recognizing the device is unfeasible. This is due to the fact that sometimes a few bits can change their standard value when the device is switched on.
 For this reason, a non-null hamming distance can be present between the response received and the expected one.
 
 Figure \ref{fig:Results} shows a graphical representation of the results obtained executing 1000 PUF authentications on the same device with 10 different challenge-response pairs.
-It is possible to observe that by increasing the value of the thresholds for the hamming distance the number of responses recognised as correct increases.
+It is possible to observe that by increasing the value of the thresholds for the hamming distance the number of responses recognized as correct increases.
 Obviously, it would be incorrect to increase the value of the threshold too much because it would increase the risk of mistaking a device for another one, thus allowing attackers to counterfeit the original device. In this project, it was decided that a threshold equal to 4 is a good compromise between security and efficiency of the implementation.
 
 \begin{figure}[tb]

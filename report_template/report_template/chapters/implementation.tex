@@ -50,7 +50,7 @@ As shown in the code in Figure \ref{fig:L1GetPUFS}, 1000 PUFs are expected. The 
 
 In this stage the board is responsible for retrieving the initial data, the PUFs, from the SRAM and store them in the flash memory so that they can be safely accessed later.
 
-Since the content of the RAM will be overwritten, the PUFs must be copied as soon as possible. For this reason this operation has to be done before any memory initialization. This operation is therefore done in the startup assembly file in which the reset handler can be found. In this way, it is guaranteed that the RAM is read before spoiling its content with other code which would mean compromising the PUFs.
+Since the content of the RAM will be overwritten, the PUFs must be copied as soon as possible. For this reason, this operation has to be done before any memory initialization. This operation is therefore done in the startup assembly file in which the reset handler can be found. In this way, it is guaranteed that the RAM is read before spoiling its content with other code which would mean compromising the PUFs.
 
 Since the flash needs control registers to be set in order to be accessed in a safe way, we relied on the HAL functions provided by STMicroelectronics. More precisely, the functions to unlock and program/write in memory. The code written to perform this operation can be found in Figure \ref{fig:code_assembly}
 
@@ -101,7 +101,7 @@ The next step is to perform the actual transmit/receive, which is done using the
 
 In this function, some data must be transmitted. Because the TXRX works with bytes, it is necessary to provide the size of the data to be sent/received in bytes. This size is equal to 4, since the transmitted challenge is 32bit long. As a response, 32 bits are also expected, hence again 4 bytes.
 
-Once the host has received the response, it compares it with the value corresponding to that challenge that has been previously store in the DB. This comparisong is done using a hamming distance. The chosen distance is of 4 bits. This choice is based on statistical results that have been obtained, trading off accuracy and safety. These operations are done in the $examples > puf\_challenge.cpp$ file shown in Figure \ref{fig:puf_challenge.cpp}
+Once the host has received the response, it compares it with the value corresponding to that challenge that has been previously store in the DB. This comparison is done using a hamming distance. The chosen distance is of 4 bits. This choice is based on statistical results that have been obtained, trading off accuracy and safety. These operations are done in the $examples > puf\_challenge.cpp$ file shown in Figure \ref{fig:puf_challenge.cpp}
 
 \begin{figure}[h!]
 	\vspace{0.5cm}

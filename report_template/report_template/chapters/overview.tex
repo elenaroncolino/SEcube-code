@@ -7,7 +7,7 @@ The main idea behind this implementation of an SRAM PUF is that whenever the hos
 The first time the host connects with the SECube\textsuperscript{TM}, it asks the device to send back a list of strings (which will be called \emph{responses}). These strings are the initial values that the SRAM assumes before being overwritten. At power on, each SRAM cell always tends to have the same stable state (a \emph{0} or a \emph{1}), i.e., each cell always assumes the same state every time it is powered on. The values of this cells cannot be predicted or simulated since they depend on the physical implementation of the SRAM (see \ref{section:physicalUnclonableFunctions} for more details). 
 The first time the host receives these responses from the device it wants to connect to, it stores them in a file that will be used as a database to be used for future authentication checks.
 
-In later connections with the device, the host sends a challenge to the device it wants to connect to and waits for a response. This challenge is the address location whose content will be checked by the host against the dabase of values it has previously stored during the first connection with the device. When the device receives the challenge, it reads the content of the address and sends a response back to the host. The host then checks if the response it has received matches with the one stored in the database and it can therefore asssess if the device it is trying to connect to is the real one.
+In later connections with the device, the host sends a challenge to the device it wants to connect to and waits for a response. This challenge is the address location whose content will be checked by the host against the database of values it has previously stored during the first connection with the device. When the device receives the challenge, it reads the content of the address and sends a response back to the host. The host then checks if the response it has received matches with the one stored in the database and it can therefore assess if the device it is trying to connect to is the real one.
 
 %\begin{equation}\label{eq:eq1}
 % data\_to\_store=H(response)
@@ -33,7 +33,8 @@ When the host tries for the first time to connect to the device, it requests the
 
 
 \subsection {Flow 2} \label{subsection:flow2}
-Similarly to \emph{Flow 1}, at power on the device stores the SRAM values in a secure place. When the host wants to connect to the device (and \emph{Flow 1} has already taken place once), it sends the device a challenge, i.e., the index of a response it wants to retrieve. When the host receives the response, it checks that it maches the value at the index indicated in the challenge and that was previously stored. If the two values match, the host can establish the connection with the device, otherwise the connection is interrupted. (see Fig. \ref{fig:Flow2});
+Similarly to \emph{Flow 1}, at power on the device stores the SRAM values in a secure place. When the host wants to connect to the device (and \emph{Flow 1} has already taken place once), it sends the device a challenge, i.e., the index of a response it wants to retrieve. When the host receives the response, it checks that it mat
+ches the value at the index indicated in the challenge and that was previously stored. If the two values match, the host can establish the connection with the device, otherwise the connection is interrupted (see Fig. \ref{fig:Flow2});
 
 \begin{figure}[H]
 \centering
