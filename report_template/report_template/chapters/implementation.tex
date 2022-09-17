@@ -22,16 +22,20 @@ On the other hand, the host is in charge of
 
 
 \section {PUF retrieval and DB initialization}
-When the board is powered on, it is necessary to access the SRAM as soon as possible to avoid compromising its content and to copy the values found into the flash memory so that they can be read later on. To perform this operation, tasks on both the host and board side have to be carried out.
+Before the PUFs can be retrieved, it is necessary to perform a memory erase: this guarantees that the whole PUFs retrieval process starts from a clean state and that the RAM cells assume their stable states at start up.
+
+Then, when the board is powered on, it is necessary to access the SRAM as soon as possible to avoid compromising its content and to copy the values found in the SRAM to the flash memory so that they can be read later on. To perform this operation, tasks on both the host and board side have to be carried out.
+
+
 
 \subsection{Host side}
 
-To retrieve the correct data from the RAM (whose values are the PUFs needed to implement the whole authentication mechanism), it is necessary to access the memory immediately after the board's startup and before writing any data in the RAM. Also an erase of the memory must be done, so before copying the PUFs into the flash memory a board initialization is performed.
+To retrieve the correct data from the RAM (whose values are the PUFs needed to implement the whole authentication mechanism), it is necessary to access the memory immediately after the board's startup and before writing any data in the RAM. 
 
-Once this is done the Host works in three stages. One to prepare the parameters to be send to the board, one to get the response from the board and one to access the DB to store them. All those stages are implemented in the $examples > puf\_db\_init.cpp$ file.
+Once this is done, the host works in three steps. The first one is to prepare the parameters to be send to the board, the second one is to get the response from the board and the last one is to access the DB to store them. All these steps are implemented in the $examples > puf\_db\_init.cpp$ file.
 
-For the request of the PUFs we don't need to send any parameters. In fact we expect only the list that will be provided from the board. So all we need is a variable where we will store the board response.
-The actual communication with the board is done through the use of functions implemented in the L1\_security API. There we have added the $L1GetPUFS$ function, see figure \ref{fig:L1GetPUFS}, that is responsible of transmitting the parameters to the board and receiving the results from it.
+In order to request the PUFs, no parameters need to be sent. In fact, only the whole list of PUFs provided from the board is expected. So, only a variable to store the board response is needed.
+The actual communication with the board is done through the use of functions implemented in the L1\_security API. There we added the $L1GetPUFS$ function (see Figure \ref{fig:L1GetPUFS}), which is responsible for transmitting the parameters to the board and receiving the results from it.
 
 \begin{figure}[h!]
 	\vspace{0.5cm}
@@ -40,15 +44,15 @@ The actual communication with the board is done through the use of functions imp
 	\label{fig:L1GetPUFS}
 \end{figure}
 
-In that piece of code we can see that we are expecting 1000 PUFs. The communication between host and board is done through the use of buffers that will then be transmitted using an appropriate transmit/receive function. In that buffer we must set the data to be sent and the size of the data we are transmitting/receiving. Then this buffer is sent with the command ID for the operation that must be performed on the board side. The response then will be given again through a buffer from which we can indicate where to store the result and the amount of bytes we expect. After that the host is responsible of managing that data, in our case to the write them in a DB.
+As shown in the code in Figure \ref{fig:L1GetPUFS}, 1000 PUFs are expected. The communication between host and board is done through the use of buffers that will then be transmitted using an appropriate transmit/receive function. In the buffer, the data to be sent and the size of the data being transmitted or received need to be set. This buffer is then sent with the command ID of the operation that must be performed on the board side. The response will be transmitted again through a buffer that will store the indicated expected bytes in the indicated variable. After that, the host is responsible for managing that data, which in this case is to write them in a DB.
 
 \subsection{Board side}
 
-In this stage the board is responsible of retrieving the initial data, PUFs, from the RAM and store them to the flash memory so that they can be accessed safely later.
+In this stage the board is responsible for retrieving the initial data, the PUFs, from the SRAM and store them in the flash memory so that they can be safely accessed later.
 
-Since the content of the RAM will be overwritten, the PUFs must be copied as soon as possible. For this reason this operation has to be done before any memory initialization. So this operation is done in the startup assembly file in which the reset handler can be found. This way we guarantee that we read the RAM before spoiling the RAM content which would mean compromising the PUFs.
+Since the content of the RAM will be overwritten, the PUFs must be copied as soon as possible. For this reason this operation has to be done before any memory initialization. This operation is therefore done in the startup assembly file in which the reset handler can be found. In this way, it is guaranteed that the RAM is read before spoiling its content with other code which would mean compromising the PUFs.
 
-Since the flash needs control registers to be set in order to be accessed in a safe way we relied on the HAL functions provided by STMicroelectronics. More precisely the functions to unlock and program/write in memory. The code written to perform this operation can be seen in figure \ref{fig:code_assembly}
+Since the flash needs control registers to be set in order to be accessed in a safe way, we relied on the HAL functions provided by STMicroelectronics. More precisely, the functions to unlock and program/write in memory. The code written to perform this operation can be found in Figure \ref{fig:code_assembly}
 
 \begin{figure}[h!]
 	\centering
@@ -58,13 +62,13 @@ Since the flash needs control registers to be set in order to be accessed in a s
 	\label{fig:code_assembly}
 \end{figure}
 
-Using the reference manual for the MCU STM32f429 we know the memory mapping of both the SRAM(0x020000000 -  0x02002FFFF) and flash memory(0x08000000 - 0x081FFFFF). Starting from that we scanned the SRAM and loaded the content to a part of the flash that will not overwrite sensible data.
+As indicated in the reference manual for the MCU STM32F429\cite{STM32F429}, the memory mapping of the SRAM is 0x020000000 -  0x02002FFFF, and 0x08000000 - 0x081FFFFF for the flash memory. The SRAM is therefore scanned in that range of addresses and the retrieved content is then loaded in a section of the flash memory that is not used by the board for its normal functioning.
 
-At the end of the execution of the assembly code we expect 1000 PUFs to be stored in the flash memory which will be accessible once we enter the main.cpp and eventually the execution loop. At that point we can call the implemented functions and access the content of the flash.
+At the end of the execution of the assembly code, the 1000 expected PUFs are stored in the flash memory which will be accessible once entered in the $main.cpp$ and in the execution loop. 
 
-Once we have the PUFs in memory we need access to them. This is done in the $puf\_retreive()$ function, found in the $se3\_dispatcher\_core.c$ file. This is the function associated to the command code transmitted from the Host side to the board.
+Once the PUFs are in memory, it is necessary to access them. This is done in the $puf\_retreive()$ function that can be found in the $se3\_dispatcher\_core.c$ file. This is the function associated to the command code transmitted from the host side to the board.
 
-To make the command call possible it is necessary to define these commands in the $se3\_dispatcher\_core.h$ which must reflect the ID associated to the same command found on the host side.
+To make the command call possible, it is necessary to define these commands in the $se3\_dispatcher\_core.h$ which must reflect the ID associated to the same command found on the host side.
 
 \begin{figure}[h!]
 	\vspace{0.5cm}
@@ -73,7 +77,7 @@ To make the command call possible it is necessary to define these commands in th
 	\label{fig:puf_retreive}
 \end{figure}
 
-In the $puf\_retreive()$ function we simply read from the flash the PUFS that we stored at startup. This data is the data that will be sent to the host side.
+In the $puf\_retreive()$ function we simply read from the flash the PUFs that we stored at startup. This is the data that will be sent to the host side.
 
 
 \section {Application of a challenge and verification of the device} 
@@ -83,9 +87,9 @@ Once we have the DB filled with PUFs, it can be used to check the authenticity o
 
 \subsection{Host side}
 
-The approach is similar to the one used for reading the PUFs but now we have different parameters to transmit. In fact we need to provide some data, the challenge, for the board to work on. So the Host is responsible of getting the challenge, use it to access the DB and retrieve the expected response. Then the challenge is sent to the board expecting in return the actual response to that challenge.
+The approach is similar to the one used for reading the PUFs, but in this case different parameters must be transmitted. In fact, the challenge needs to be sent to the board. The host is therefore responsible for getting the challenge, using it to access the DB and retrieving the expected response. Then the challenge is sent to the board and the corresponding response is expected in return.
 
-The next stage is to perform the actual transmit/receive which is done using the L1ChallengePUF function of the L1 API, see figure \ref{fig:L1ChallengePUF}.
+The next step is to perform the actual transmit/receive, which is done using the L1ChallengePUF function of the L1 API (see figure \ref{fig:L1ChallengePUF}).
 
 \begin{figure}[h!]
 	\vspace{0.5cm}
@@ -95,9 +99,9 @@ The next stage is to perform the actual transmit/receive which is done using the
 \end{figure}
 
 
-In this function we have some data to transmit and since the TXRX works on bytes, we have to provide the size of the data to be sent/received in bytes which is 4 since we transmit just 32bit of the challenge. Then as a response we expect just one 32bit value so another 4 bytes.
+In this function, some data must be transmitted. Because the TXRX works with bytes, it is necessary to provide the size of the data to be sent/received in bytes. This size is equal to 4, since the transmitted challenge is 32bit long. As a response, 32 bits are also expected, hence again 4 bytes.
 
-Once the Host has both expected and actual response it compares them using an acceptable Hamming distance. The one chosen is a distance of 4 bits. This choice is based on statistical results we obtained. These operations are done in the $examples > puf\_challenge.cpp$ file shown in figure \ref{fig:puf_challenge.cpp}
+Once the host has received the response, it compares it with the value corresponding to that challenge that has been previously store in the DB. This comparisong is done using a hamming distance. The chosen distance is of 4 bits. This choice is based on statistical results that have been obtained, trading off accuracy and safety. These operations are done in the $examples > puf\_challenge.cpp$ file shown in Figure \ref{fig:puf_challenge.cpp}
 
 \begin{figure}[h!]
 	\vspace{0.5cm}
@@ -108,9 +112,7 @@ Once the Host has both expected and actual response it compares them using an ac
 
 \subsection{Board side}
 
-The Board at this point has been provided with the challenge. But the data has been sent using Little endian encoding so before being able to use the parameter passed a reconstruction is necessary.
-
-So we reconstruct the data received to obtain the challenge. From there we can access the flash memory using the challenge as an address. This will be the actual PUF response returned to the Host.
+The board at this point has been provided with the challenge. However, the data has been sent using little-endian encoding: so, before being able to use the parameter passed, it is necessary to reconstruct the received data to obtain the correct challenge. At this point, the flash memory can be accessed using the challenge as an address. The value at that address will be the actual PUF response to be returned to the host.
 
 \begin{figure}[h!]
 	\vspace{0.5cm}
@@ -119,4 +121,4 @@ So we reconstruct the data received to obtain the challenge. From there we can a
 	\label{fig:puf_challenge_board}
 \end{figure}
 
-At this point the Board has completed its tasks and it is waiting for the next instruction. The Host on the other side will have to manage the response provided and complete the authentication process.
+The board has now completed its tasks and it is waiting for the next instruction. The host, on the other side, will have to manage the response provided and complete the authentication process.
