@@ -19,7 +19,7 @@ Most of the currently used PUFs fall into two categories:
 \item weak PUFs, primarily used for key storage.
 \end{itemize}
 
-A PUF can be modeled as a black-box challenge-response system: an input challenge \emph{c} is passed to a PUF which returns a response \emph{r = f(c)}, where \emph{f(·)} describes the input/output relations of the PUF. The black-box model is appropriate to describe PUFs since input parameters of \emph{f(·)} are hidden from the user since they represent the interfan manufacturing variability that PUFs use to generate unique challenge-response sets.
+A PUF can be modeled as a black-box challenge-response system: an input challenge \emph{c} is passed to a PUF which returns a response \emph{r = f(c)}, where \emph{f(·)} describes the input/output relations of the PUF. The black-box model is appropriate to describe PUFs since input parameters of \emph{f(·)} are hidden from the user since they represent the innate manufacturing variability that PUFs use to generate unique challenge-response sets.
 
 The fundamental difference between weak and strong PUFs is the domain of \emph{f(·)}, i.e., the number of unique challenges \emph{c} that the PUF can process. Weak PUFs can only support a small number of challenges (in some cases just a single challenge). On the contrary, a strong PUF can support a large enough number of challenges such that trying to determine/measure all challenge/response pairs (CRPs) within a limited timeframe is unfeasible.
 
