@@ -34,7 +34,7 @@ To retrieve the correct data from the RAM (whose values are the PUFs needed to i
 
 Once this is done, the host works in three steps. The first one is to prepare the parameters to be send to the board, the second one is to get the response from the board and the last one is to access the DB to store them. All these steps are implemented in the $examples > puf\_db\_init.cpp$ file.
 
-In order to request the PUFs, no parameters need to be sent. In fact, only the whole list of PUFs provided from the board is expected. So, only a variable to store the board response is needed.
+In order to request the PUFs, no parameters need to be sent. In fact, only the list of PUFs provided from the board is expected. So, only a variable to store the board response is passed.
 The actual communication with the board is done through the use of functions implemented in the L1\_security API. There we added the $L1GetPUFS$ function (see Figure \ref{fig:L1GetPUFS}), which is responsible for transmitting the parameters to the board and receiving the results from it.
 
 \begin{figure}[h!]
@@ -44,7 +44,7 @@ The actual communication with the board is done through the use of functions imp
 	\label{fig:L1GetPUFS}
 \end{figure}
 
-As shown in the code in Figure \ref{fig:L1GetPUFS}, 1000 PUFs are expected. The communication between host and board is done through the use of buffers that will then be transmitted using an appropriate transmit/receive function. In the buffer, the data to be sent and the size of the data being transmitted or received need to be set. This buffer is then sent with the command ID of the operation that must be performed on the board side. The response will be transmitted again through a buffer that will store the indicated expected bytes in the indicated variable. After that, the host is responsible for managing that data, which in this case is to write them in a DB.
+As shown in the code in Figure \ref{fig:L1GetPUFS}, 1000 PUFs are expected. The communication between host and board is done through the use of buffers that will then be transmitted using an appropriate transmit/receive function. In the buffer, the data to be sent and the size of the data being transmitted or received need to be set. This buffer is then sent together with the command ID of the operation that must be performed on the board side. The response will be transmitted again through a buffer that will store a number bytes of the response, numeber that has to be provided. After that, the host is responsible for managing that data, which in this case is to write them in a DB.
 
 \subsection{Board side}
 
@@ -77,7 +77,7 @@ To make the command call possible, it is necessary to define these commands in t
 	\label{fig:puf_retreive}
 \end{figure}
 
-In the $puf\_retreive()$ function we simply read from the flash the PUFs that we stored at startup. This is the data that will be sent to the host side.
+In the $puf\_retreive()$ function we read from the flash the PUFs that we stored at startup. This is the data that will be sent to the host side.
 
 
 \section {Application of a challenge and verification of the device} 
@@ -87,7 +87,7 @@ Once we have the DB filled with PUFs, it can be used to check the authenticity o
 
 \subsection{Host side}
 
-The approach is similar to the one used for reading the PUFs, but in this case different parameters must be transmitted. In fact, the challenge needs to be sent to the board. The host is therefore responsible for getting the challenge, using it to access the DB and retrieving the expected response. Then the challenge is sent to the board and the corresponding response is expected in return.
+The approach is similar to the one used for reading the PUFs, but in this case different parameters must be transmitted. In fact, the challenge needs to be sent to the board. The host is therefore responsible of generating the challenge, using it to access the DB. Then the challenge is also sent to the board and the response to it is expected in return.
 
 The next step is to perform the actual transmit/receive, which is done using the L1ChallengePUF function of the L1 API (see figure \ref{fig:L1ChallengePUF}).
 
@@ -99,9 +99,9 @@ The next step is to perform the actual transmit/receive, which is done using the
 \end{figure}
 
 
-In this function, some data must be transmitted. Because the TXRX works with bytes, it is necessary to provide the size of the data to be sent/received in bytes. This size is equal to 4, since the transmitted challenge is 32bit long. As a response, 32 bits are also expected, hence again 4 bytes.
+In this function, some data must be transmitted. Since the TXRX works with bytes, it is necessary to provide the size of the data to be sent/received also in bytes. This size is equal to 4, since the transmitted challenge is 32bit long. As a response, 32 bits are also expected, hence again 4 bytes.
 
-Once the host has received the response, it compares it with the value corresponding to that challenge that has been previously store in the DB. This comparison is done using a hamming distance. The chosen distance is of 4 bits. This choice is based on statistical results that have been obtained, trading off accuracy and safety. These operations are done in the $examples > puf\_challenge.cpp$ file shown in Figure \ref{fig:puf_challenge.cpp}
+Once the host has received the actual response, it compares it with the the expected one found in the DB, that we have previously fetched. This comparison is done using a hamming distance. The chosen distance is of 4 bits. This choice is based on statistical results that have been obtained, trading off accuracy and safety. These operations are done in the $examples > puf\_challenge.cpp$ file shown in Figure \ref{fig:puf_challenge.cpp}
 
 \begin{figure}[h!]
 	\vspace{0.5cm}

@@ -9,25 +9,25 @@
 \contentsline {chapter}{\numberline {3}Implementation Overview}{6}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Idea behind the project}{6}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Implementation overview}{6}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Flow 1}{6}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.1}Flow 1}{7}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Flow 2}{7}{subsection.3.2.2}%
 \contentsline {chapter}{\numberline {4}Implementation Details}{9}{chapter.4}%
 \contentsline {section}{\numberline {4.1}PUF retrieval and DB initialization}{9}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Host side}{9}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.1}Host side}{10}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Board side}{10}{subsection.4.1.2}%
 \contentsline {section}{\numberline {4.2}Application of a challenge and verification of the device}{11}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Host side}{11}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Board side}{13}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.1}Host side}{12}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Board side}{12}{subsection.4.2.2}%
 \contentsline {chapter}{\numberline {5}Results}{14}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Known Issues}{15}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Future Work}{15}{section.5.2}%
-\contentsline {chapter}{\numberline {6}Conclusions}{17}{chapter.6}%
-\contentsline {chapter}{\numberline {A}User Manual}{19}{appendix.A}%
-\contentsline {section}{\numberline {A.1}SEcube™ Software Development Kit (version 1.5.2)}{19}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Licence}{19}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Terms of use}{19}{section.A.3}%
-\contentsline {section}{\numberline {A.4}PUF}{19}{section.A.4}%
-\contentsline {section}{\numberline {A.5}Instructions to run the project}{19}{section.A.5}%
-\contentsline {subsection}{\numberline {A.5.1}Import the project}{19}{subsection.A.5.1}%
-\contentsline {subsection}{\numberline {A.5.2}Run the project}{20}{subsection.A.5.2}%
-\contentsline {chapter}{\numberline {B}API}{22}{appendix.B}%
+\contentsline {section}{\numberline {5.1}Known Issues}{14}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Future Work}{14}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Conclusions}{16}{chapter.6}%
+\contentsline {chapter}{\numberline {A}User Manual}{18}{appendix.A}%
+\contentsline {section}{\numberline {A.1}SEcube™ Software Development Kit (version 1.5.2)}{18}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Licence}{18}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Terms of use}{18}{section.A.3}%
+\contentsline {section}{\numberline {A.4}PUF}{18}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Instructions to run the project}{18}{section.A.5}%
+\contentsline {subsection}{\numberline {A.5.1}Import the project}{18}{subsection.A.5.1}%
+\contentsline {subsection}{\numberline {A.5.2}Run the project}{19}{subsection.A.5.2}%
+\contentsline {chapter}{\numberline {B}API}{21}{appendix.B}%

@@ -1,24 +1,24 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces SRAM bit cells \cite {PUF_Sutar}. \relax }}{5}{figure.caption.5}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces The three components of the SEcube\textsuperscript {TM}: the ARM Cortex-M4 processor, the FPGA and the EAL5+ SmartCard\cite {SEcubeDoc}. \relax }}{5}{figure.caption.6}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces SRAM bit cells \cite {PUF_Sutar}. \relax }}{5}{figure.caption.4}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces The three components of the SEcube\textsuperscript {TM}: the ARM Cortex-M4 processor, the FPGA and the EAL5+ SmartCard\cite {SEcubeDoc}. \relax }}{5}{figure.caption.5}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Flow 1\relax }}{7}{figure.caption.7}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Flow 2\relax }}{8}{figure.caption.8}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Flow 1\relax }}{7}{figure.caption.6}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Flow 2\relax }}{8}{figure.caption.7}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Function responsible for communicating with the board and receiving the list of PUFs. \relax }}{10}{figure.caption.9}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Assembly code to store PUFs into the flash memory. \relax }}{11}{figure.caption.10}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces puf\_retreive function. \relax }}{11}{figure.caption.11}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces L1ChallengePUF function for transmitting challenge and response PUF\relax }}{12}{figure.caption.12}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces puf\_challenge.cpp\relax }}{12}{figure.caption.13}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces puf\_challenge\_board function on the board side\relax }}{13}{figure.caption.14}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Function responsible for communicating with the board and receiving the list of PUFs. \relax }}{10}{figure.caption.8}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Assembly code to store PUFs into the flash memory. \relax }}{11}{figure.caption.9}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces puf\_retreive function. \relax }}{11}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces L1ChallengePUF function for transmitting challenge and response PUF\relax }}{12}{figure.caption.11}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces puf\_challenge.cpp\relax }}{13}{figure.caption.12}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces puf\_challenge\_board function on the board side\relax }}{13}{figure.caption.13}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces results \relax }}{15}{figure.caption.15}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Results of PUF authentications with different hamming distance thresholds. \relax }}{15}{figure.caption.14}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {A.1}{\ignorespaces Erase flash\relax }}{20}{figure.caption.17}%
-\contentsline {figure}{\numberline {A.2}{\ignorespaces Chip flash\relax }}{20}{figure.caption.18}%
-\contentsline {figure}{\numberline {A.3}{\ignorespaces Puf db init\relax }}{20}{figure.caption.19}%
-\contentsline {figure}{\numberline {A.4}{\ignorespaces Puf challenge\relax }}{21}{figure.caption.20}%
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Erase flash\relax }}{19}{figure.caption.16}%
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Chip flash\relax }}{19}{figure.caption.17}%
+\contentsline {figure}{\numberline {A.3}{\ignorespaces Puf DB init\relax }}{19}{figure.caption.18}%
+\contentsline {figure}{\numberline {A.4}{\ignorespaces PUF challenge\relax }}{20}{figure.caption.19}%
 \addvspace {10\p@ }
